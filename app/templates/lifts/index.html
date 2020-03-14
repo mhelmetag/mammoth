@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mammoth</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+    <div class="section">
+      <div class="container">
+        <div class="columns is-multiline">
+          {% for lift in lifts %}
+            <div class="column is-full">
+              <div class="card">
+                <div class="card-content">
+                  <div class="columns">
+                    <div class="column is-one-third has-text-centered">
+                      <div>
+                        <p class="heading">Name</p>
+                        <p class="title">{{lift.name}}</p>
+                      </div>
+                    </div>
+                    <div class="column has-text-centered">
+                      <div>
+                        <p class="heading">Status</p>
+                        <p class="title">{{lift.status}}</p>
+                      </div>
+                    </div>
+                    <div class="column has-text-centered">
+                      <div>
+                        <p class="heading">Kind</p>
+                        <p class="title">{{lift.kind}}</p>
+                      </div>
+                    </div>
+                    <div class="column has-text-centered">
+                      <div>
+                        <p class="heading">Last Updated</p>
+                        <p class="title">{{lift.last_updated.strftime('%-I:%M %p PST')}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

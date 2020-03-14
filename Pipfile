@@ -11,6 +11,8 @@ psycopg2-binary = "*"
 starlette = "*"
 SQLAlchemy = "*"
 uvicorn = "*"
+python-dateutil = "*"
+jinja2 = "*"
 
 [dev-packages]
 pytest = "*"
