@@ -31,13 +31,16 @@ def main():
         if name_element and status_element:
             name = name_element.getText()
             status = translate_status(status_element['class'][1])
-            last_updated_string = f"{row.find('td', {'class': 'lift-last-update'}).find('span').getText()} PST"
-            last_updated = parse(last_updated_string, tzinfos={
-                                 'PST': gettz('America/Los_Angeles')})
+            last_updated_raw = row.find(
+                'td', {'class': 'lift-last-update'}).find('span').getText()
 
-            lift = session.query(Lift).filter(Lift.name == name).one()
+            lift = session.query(Lift).filter(Lift.name == name).first()
 
-            if lift and lift.status != status:
+            if lift and lift.status != status and last_updated_raw != 'N/A':
+                last_updated_pst = f"{last_updated_raw} PST"
+                last_updated = parse(last_updated_string, tzinfos={
+                    'PST': gettz('America/Los_Angeles')})
+
                 lift.status = status
                 lift.last_updated = last_updated
                 session.commit()
