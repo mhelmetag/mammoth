@@ -1,5 +1,6 @@
 from app.models.base import Base
 from app.models.lift import Lift
+from app.models.subscriber import Subsciber
 
 import os
 
