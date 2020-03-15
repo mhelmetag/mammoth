@@ -37,7 +37,7 @@
                     <div class="column has-text-centered">
                       <div>
                         <p class="heading">Last Updated</p>
-                        <p class="title">{{lift.last_updated.strftime('%-I:%M %p PST')}}</p>
+                        <p class="title">{{lift.last_updated.replace(tzinfo=timezone).strftime('%-I:%M %p PST')}}</p>
                       </div>
                     </div>
                   </div>
