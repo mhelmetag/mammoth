@@ -13,6 +13,8 @@ SQLAlchemy = "*"
 uvicorn = "*"
 python-dateutil = "*"
 jinja2 = "*"
+twilio = "*"
+python-multipart = "*"
 
 [dev-packages]
 pytest = "*"

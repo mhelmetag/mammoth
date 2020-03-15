@@ -2,7 +2,7 @@ from app.models.base import Base
 
 from sqlalchemy import Column, Integer, String
 
-class Subsciber(Base):
+class Subscriber(Base):
     __tablename__ = 'subscribers'
 
     id = Column(Integer, primary_key=True)
