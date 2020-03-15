@@ -8,8 +8,6 @@ from requests import get
 from bs4 import BeautifulSoup
 
 def main():
-  updated = []
-
   session = Session()
 
   response = get('https://www.mammothmountain.com/mvc/lifttraildata/getliftdata?resort=1&view=_mmsa_lift_status')
@@ -34,8 +32,6 @@ def main():
         lift.status = status
         lift.last_updated = last_updated
         session.commit()
-
-        updated.append(lift)
 
   session.close()
 
