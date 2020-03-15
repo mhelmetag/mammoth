@@ -2,6 +2,7 @@ from app.models.base import Base
 
 from sqlalchemy import Column, Integer, String
 
+
 class Subscriber(Base):
     __tablename__ = 'subscribers'
 

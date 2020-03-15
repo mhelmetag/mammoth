@@ -4,6 +4,7 @@ from dateutil.tz import gettz
 
 from sqlalchemy import Column, Integer, String, DateTime
 
+
 class Lift(Base):
     __tablename__ = 'lifts'
 

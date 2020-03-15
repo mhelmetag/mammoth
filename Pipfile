@@ -13,9 +13,7 @@ SQLAlchemy = "*"
 uvicorn = "*"
 python-dateutil = "*"
 jinja2 = "*"
-twilio = "*"
-python-multipart = "*"
-aiofiles = "*"
+firebase-admin = "*"
 
 [dev-packages]
 pytest = "*"
