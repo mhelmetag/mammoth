@@ -1,18 +1,23 @@
 from app.db.session import Session
 from app.models.lift import Lift
+from app.shared.firebase import init_firebase_admin
+
+import os
 
 from dateutil.parser import parse
 from dateutil.tz import gettz
-
 from requests import get
 from bs4 import BeautifulSoup
+import firebase_admin
+from firebase_admin import messaging
+
+init_firebase_admin()
 
 
 def main():
     session = Session()
 
-    response = get(
-        'https://www.mammothmountain.com/mvc/lifttraildata/getliftdata?resort=1&view=_mmsa_lift_status')
+    response = get(os.getenv('MAMMOTH_STATUS_URL'))
     json = response.json()
     html = json['data']
     soup = BeautifulSoup(html, 'html.parser')
@@ -38,6 +43,19 @@ def main():
                 session.commit()
 
                 updated.append(lift)
+
+    if any(updated):
+        notification = messaging.Notification(
+            image=f"{os.getenv('BASE_URL')}/static/icon.png",
+            title='New Lift Updates from Mammoth',
+            body=f'{len(updated)} Lift(s) has/have updated status(es)'
+        )
+        message = messaging.Message(
+            topic='updates',
+            notification=notification
+        )
+
+        messaging.send(message)
 
     session.close()
 

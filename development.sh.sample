@@ -1,0 +1,9 @@
+export BASE_URL=http://localhost:8000
+export MAMMOTH_STATUS_URL=https://www.mammothmountain.com/mvc/lifttraildata/getliftdata?resort=1&view=_mmsa_lift_status
+export FIREBASE_PROJECT_ID=
+export FIREBASE_PRIVATE_KEY_ID=
+export FIREBASE_PRIVATE_KEY=
+export FIREBASE_CLIENT_EMAIL=
+export FIREBASE_CLIENT_ID=
+export FIREBASE_CLIENT_X509_CERT_URL=
+

@@ -1,6 +1,5 @@
 from app.models.base import Base
 from app.models.lift import Lift
-from app.models.subscriber import Subscriber
 
 import os
 
@@ -13,12 +12,13 @@ from alembic import context
 
 config = context.config
 
-url = os.getenv('DATABASE_URL', 'postgresql://localhost/mammoth') 
+url = os.getenv('DATABASE_URL', 'postgresql://localhost/mammoth')
 config.set_main_option('sqlalchemy.url', url)
 
 fileConfig(config.config_file_name)
 
 target_metadata = Base.metadata
+
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.

@@ -1,17 +1,21 @@
 from app.models.lift import Lift
-from app.models.subscriber import Subscriber
 from app.db.session import Session
+from app.shared.firebase import init_firebase_admin
 
 from starlette.applications import Starlette
 from starlette.templating import Jinja2Templates
 from starlette.responses import JSONResponse, FileResponse
 from starlette.routing import Mount
 from starlette.staticfiles import StaticFiles
+import firebase_admin
+from firebase_admin import messaging
 
 templates = Jinja2Templates(directory='app/templates')
 routes = [
     Mount('/static', app=StaticFiles(directory='app/static'), name="static")]
 app = Starlette(routes=routes)
+
+init_firebase_admin()
 
 
 @app.route('/', methods=['GET'])
@@ -29,17 +33,9 @@ async def root(request):
 async def register(request):
     data = await request.json()
     subscriber_id = data['subscriber_id']
+    tokens = [subscriber_id]
 
-    session = Session()
-    subscriber = session.query(Subscriber).filter(
-        Subscriber.subscriber_id == subscriber_id).first()
-
-    if not subscriber:
-        subscriber = Subscriber(subscriber_id=subscriber_id)
-        session.add(subscriber)
-        session.commit()
-
-    session.close()
+    messaging.subscribe_to_topic(tokens, 'updates')
 
     return JSONResponse({'success': True})
 

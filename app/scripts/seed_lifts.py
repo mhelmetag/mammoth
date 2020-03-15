@@ -1,9 +1,10 @@
 from app.db.session import Session
 from app.models.lift import Lift
 
+import os
+
 from dateutil.parser import parse
 from dateutil.tz import gettz
-
 from requests import get
 from bs4 import BeautifulSoup
 
@@ -11,8 +12,7 @@ from bs4 import BeautifulSoup
 def main():
     session = Session()
 
-    response = get(
-        'https://www.mammothmountain.com/mvc/lifttraildata/getliftdata?resort=1&view=_mmsa_lift_status')
+    response = get(os.getenv('MAMMOTH_STATUS_URL'))
     json = response.json()
     html = json['data']
     soup = BeautifulSoup(html, 'html.parser')
