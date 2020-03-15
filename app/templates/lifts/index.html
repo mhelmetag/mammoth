@@ -19,25 +19,25 @@
                     <div class="column is-one-third has-text-centered">
                       <div>
                         <p class="heading">Name</p>
-                        <p class="title">{{lift.name}}</p>
+                        <p class="title">{{lift['name']}}</p>
                       </div>
                     </div>
                     <div class="column has-text-centered">
                       <div>
                         <p class="heading">Status</p>
-                        <p class="title">{{lift.status}}</p>
+                        <p class="title">{{lift['status']}}</p>
                       </div>
                     </div>
                     <div class="column has-text-centered">
                       <div>
                         <p class="heading">Kind</p>
-                        <p class="title">{{lift.kind}}</p>
+                        <p class="title">{{lift['kind']}}</p>
                       </div>
                     </div>
                     <div class="column has-text-centered">
                       <div>
                         <p class="heading">Last Updated</p>
-                        <p class="title">{{lift.last_updated.replace(tzinfo=timezone).strftime('%-I:%M %p PST')}}</p>
+                        <p class="title">{{lift['last_updated']}}</p>
                       </div>
                     </div>
                   </div>

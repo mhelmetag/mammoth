@@ -23,7 +23,7 @@ def upgrade():
         sa.Column('name', sa.String(), nullable=False),
         sa.Column('status', sa.String(), nullable=False),
         sa.Column('kind', sa.String(), nullable=False),
-        sa.Column('last_updated', sa.DateTime(timezone=True), nullable=False),
+        sa.Column('last_updated', sa.DateTime(), nullable=False),
         sa.PrimaryKeyConstraint('id'),
         sa.UniqueConstraint('name')
     )

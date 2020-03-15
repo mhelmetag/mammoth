@@ -1,5 +1,7 @@
 from app.models.base import Base
 
+from dateutil.tz import gettz
+
 from sqlalchemy import Column, Integer, String, DateTime
 
 class Lift(Base):
@@ -17,5 +19,5 @@ class Lift(Base):
             'name': self.name,
             'status': self.status,
             'kind': self.kind,
-            'last_updated': self.last_updated.isoformat()
+            'last_updated': self.last_updated.replace(tzinfo=gettz('UTC')).astimezone(tz=gettz('America/Los_Angeles')).strftime('%-I:%M %p %Z')
         }

@@ -24,13 +24,14 @@ def main():
       name = name_element.getText()
       status = translate_status(status_element['class'][1])
       kind = translate_chairlift_kind(row.find('td', {'class': 'lift-chair-icon'})['class'][1])
-      last_updated = parse(f"{row.find('td', {'class': 'lift-last-update'}).find('span').getText()} PST", tzinfos={'PST': gettz('America/Los_Angeles')})
+      last_updated_string = f"{row.find('td', {'class': 'lift-last-update'}).find('span').getText()} PST"
+      last_updated = parse(last_updated_string, tzinfos={'PST': gettz('America/Los_Angeles')})
 
       lift = Lift(
         name=name,
         status=status,
         kind=kind,
-        last_updated=last_updated
+        last_updated=last_updated.astimezone(tz=gettz('UTC'))
       )
 
       session.add(lift)
