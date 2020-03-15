@@ -14,6 +14,7 @@ uvicorn = "*"
 python-dateutil = "*"
 jinja2 = "*"
 firebase-admin = "*"
+aiofiles = "*"
 
 [dev-packages]
 pytest = "*"
