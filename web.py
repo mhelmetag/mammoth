@@ -5,10 +5,15 @@ from app.db.session import Session
 from starlette.applications import Starlette
 from starlette.templating import Jinja2Templates
 from starlette.responses import JSONResponse, RedirectResponse
+from starlette.routing import Mount
+from starlette.staticfiles import StaticFiles
+from starlette.responses import FileResponse
 
 templates = Jinja2Templates(directory='app/templates')
 
-app = Starlette()
+routes = [Mount('/static', app=StaticFiles(directory='app/static'), name="static")]
+
+app = Starlette(routes=routes)
 
 @app.route('/', methods=['GET', 'POST'])
 async def root(request):  
@@ -19,6 +24,10 @@ async def root(request):
   session.close()
 
   return templates.TemplateResponse('lifts/index.html', {'request': request, 'lifts': lift_dicts})
+
+@app.route('/favicon.ico', methods=['GET'])
+async def favicon(request):
+  return FileResponse('app/static/favicon.ico')
 
 @app.route('/subscribe', methods=['GET'])
 async def subscribe(request):  

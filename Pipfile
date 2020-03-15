@@ -15,6 +15,7 @@ python-dateutil = "*"
 jinja2 = "*"
 twilio = "*"
 python-multipart = "*"
+aiofiles = "*"
 
 [dev-packages]
 pytest = "*"
