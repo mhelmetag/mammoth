@@ -38,7 +38,7 @@ def main():
 
             if lift and lift.status != status and last_updated_raw != 'N/A':
                 last_updated_pst = f"{last_updated_raw} PST"
-                last_updated = parse(last_updated_string, tzinfos={
+                last_updated = parse(last_updated_pst, tzinfos={
                     'PST': gettz('America/Los_Angeles')})
 
                 lift.status = status
