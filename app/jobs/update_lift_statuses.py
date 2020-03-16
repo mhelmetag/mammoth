@@ -3,6 +3,7 @@ from app.models.lift import Lift
 from app.shared.firebase import init_firebase_admin
 
 import os
+from datetime import datetime
 
 from dateutil.parser import parse
 from dateutil.tz import gettz
@@ -36,10 +37,13 @@ def main():
 
             lift = session.query(Lift).filter(Lift.name == name).first()
 
-            if lift and lift.status != status and last_updated_raw != 'N/A':
-                last_updated_pst = f"{last_updated_raw} PST"
-                last_updated = parse(last_updated_pst, tzinfos={
-                    'PST': gettz('America/Los_Angeles')})
+            if lift and lift.status != status:
+                last_updated = datetime.utcnow()
+
+                if last_updated_raw != 'N/A':
+                    last_updated_pst = f"{last_updated_raw} PST"
+                    last_updated = parse(last_updated_pst, tzinfos={
+                        'PST': gettz('America/Los_Angeles')})
 
                 lift.status = status
                 lift.last_updated = last_updated

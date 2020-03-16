@@ -2,6 +2,7 @@ from app.db.session import Session
 from app.models.lift import Lift
 
 import os
+from datetime import datetime
 
 from dateutil.parser import parse
 from dateutil.tz import gettz
@@ -27,15 +28,20 @@ def main():
             status = translate_status(status_element['class'][1])
             kind = translate_chairlift_kind(
                 row.find('td', {'class': 'lift-chair-icon'})['class'][1])
-            last_updated_string = f"{row.find('td', {'class': 'lift-last-update'}).find('span').getText()} PST"
-            last_updated = parse(last_updated_string, tzinfos={
-                                 'PST': gettz('America/Los_Angeles')})
+            last_updated_raw = row.find(
+                'td', {'class': 'lift-last-update'}).find('span').getText()
+            last_updated = datetime.utcnow()
+
+            if last_updated_raw != 'N/A':
+                last_updated_pst = f"{last_updated_raw} PST"
+                last_updated = parse(last_updated_pst, tzinfos={
+                    'PST': gettz('America/Los_Angeles')})
 
             lift = Lift(
                 name=name,
                 status=status,
                 kind=kind,
-                last_updated=last_updated.astimezone(tz=gettz('UTC'))
+                last_updated=last_updated
             )
 
             session.add(lift)
