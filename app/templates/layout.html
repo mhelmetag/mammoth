@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}{% endblock %} - Mammoth</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
+    />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
+    <script src="/static/navbar.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-messaging.js"></script>
+    <script src="/static/firebase-messaging.js"></script>
+    {% endblock %}
+  </head>
+  <body>
+    <nav
+      class="navbar has-shadow is-spaced"
+      role="navigation"
+      aria-label="main navigation"
+    >
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <img class="image" src="/static/icon.png" />
+        </a>
+        <a
+          role="button"
+          class="navbar-burger burger"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="mammothNavbar"
+        >
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="mammothNavbar" class="navbar-menu">
+        <a href="/" class="navbar-item">
+          Home
+        </a>
+      </div>
+    </nav>
+    <div class="section">
+      <div class="container">{% block content %}{% endblock %}</div>
+    </div>
+  </body>
+</html>

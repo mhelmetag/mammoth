@@ -2,7 +2,11 @@ from app.models.lift import Lift
 from app.db.session import Session
 from app.shared.firebase import init_firebase_admin
 
+import os
+
 from starlette.applications import Starlette
+from starlette.middleware import Middleware
+from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 from starlette.templating import Jinja2Templates
 from starlette.responses import JSONResponse, FileResponse
 from starlette.routing import Mount
@@ -13,7 +17,11 @@ from firebase_admin import messaging
 templates = Jinja2Templates(directory='app/templates')
 routes = [
     Mount('/static', app=StaticFiles(directory='app/static'), name="static")]
-app = Starlette(routes=routes)
+middleware = []
+if os.getenv('APP_ENV', 'development') == 'production':
+    middleware.append(Middleware(HTTPSRedirectMiddleware))
+
+app = Starlette(routes=routes, middleware=middleware)
 
 init_firebase_admin()
 
