@@ -1,6 +1,7 @@
 from app.models.base import Base
 
 from dateutil.tz import gettz
+from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, DateTime
 
@@ -20,7 +21,7 @@ class Lift(Base):
             'name': self.name,
             'status': self.status,
             'kind': self.kind,
-            'last_updated': self.last_updated.replace(tzinfo=gettz('UTC')).astimezone(tz=gettz('America/Los_Angeles')).strftime('%-I:%M %p %Z')
+            'last_updated': self._last_updated_for_html()
         }
 
     def _for_json(self):
@@ -29,5 +30,18 @@ class Lift(Base):
             'name': self.name,
             'status': self.status,
             'kind': self.kind,
-            'last_updated': self.last_updated.replace(tzinfo=gettz('UTC')).isoformat()
+            'last_updated': self._last_updated_for_json()
         }
+
+    def _last_updated_for_html(self):
+        last_updated = self.last_updated
+        time_since_last_updated = datetime.now() - last_updated
+
+        if time_since_last_updated.days >= 1:
+            return 'A long time ago...'
+        else:
+            return last_updated.replace(tzinfo=gettz('UTC')).astimezone(
+                tz=gettz('America/Los_Angeles')).strftime('%-I:%M %p %Z')
+
+    def _last_updated_for_json(self):
+        return self.last_updated.replace(tzinfo=gettz('UTC')).isoformat()

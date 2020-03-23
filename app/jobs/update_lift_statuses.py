@@ -52,14 +52,36 @@ def main():
                 updated.append(lift)
 
     if any(updated):
+        title = 'New Lift Updates from Mammoth'
+        body = f'{len(updated)} Lift(s) has/have updated status(es)'
+
+        webpush_notification = messaging.WebpushNotification(
+            title=title,
+            body=body,
+            icon=f"{os.getenv('BASE_URL')}/static/icon.png",
+            badge=f"{os.getenv('BASE_URL')}/static/icon.png",
+            renotify=True
+        )
+
+        link = None
+        if os.getenv('APP_ENV', 'development') == 'production':
+            link = os.getenv('BASE_URL')
+
+        webpush_fcm_options = messaging.WebpushFCMOptions(
+            link=link
+        )
+        webpush_config = messaging.WebpushConfig(
+            notification=webpush_notification,
+            fcm_options=webpush_fcm_options
+        )
         notification = messaging.Notification(
-            image=f"{os.getenv('BASE_URL')}/static/icon.png",
-            title='New Lift Updates from Mammoth',
-            body=f'{len(updated)} Lift(s) has/have updated status(es)'
+            title=title,
+            body=body
         )
         message = messaging.Message(
             topic='updates',
-            notification=notification
+            notification=notification,
+            webpush=webpush_config
         )
 
         messaging.send(message)
