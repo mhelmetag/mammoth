@@ -38,7 +38,7 @@ class Lift(Base):
         time_since_last_updated = datetime.now() - last_updated
 
         if time_since_last_updated.days >= 1:
-            return 'A long time ago...'
+            return 'A long time ago'
         else:
             return last_updated.replace(tzinfo=gettz('UTC')).astimezone(
                 tz=gettz('America/Los_Angeles')).strftime('%-I:%M %p %Z')

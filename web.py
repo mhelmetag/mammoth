@@ -14,11 +14,13 @@ from starlette.staticfiles import StaticFiles
 import firebase_admin
 from firebase_admin import messaging
 
+APP_ENV = os.getenv('APP_ENV', 'development')
+
 templates = Jinja2Templates(directory='app/templates')
 routes = [
     Mount('/static', app=StaticFiles(directory='app/static'), name="static")]
 middleware = []
-if os.getenv('APP_ENV', 'development') == 'production':
+if APP_ENV == 'production':
     middleware.append(Middleware(HTTPSRedirectMiddleware))
 
 app = Starlette(routes=routes, middleware=middleware)
@@ -48,9 +50,20 @@ async def register(request):
     return JSONResponse({'success': True})
 
 
+@app.route('/firebase-messaging.js', methods=['GET'])
+async def messaging_js(request):
+    if APP_ENV == 'production':
+        return FileResponse('app/dynamic/firebase-messaging.js')
+    else:
+        return FileResponse('app/dynamic/firebase-messaging-dev.js')
+
+
 @app.route('/firebase-messaging-sw.js', methods=['GET'])
-async def sw_file(request):
-    return FileResponse('app/static/firebase-messaging-sw.js')
+async def messaging_sw_js(request):
+    if APP_ENV == 'production':
+        return FileResponse('app/dynamic/firebase-messaging-sw.js')
+    else:
+        return FileResponse('app/dynamic/firebase-messaging-dev-sw.js')
 
 
 @app.route('/api/lifts', methods=['GET'])
