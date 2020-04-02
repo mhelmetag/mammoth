@@ -5,8 +5,6 @@ from app.shared.firebase import init_firebase_admin
 import os
 
 from starlette.applications import Starlette
-from starlette.middleware import Middleware
-from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 from starlette.templating import Jinja2Templates
 from starlette.responses import JSONResponse, FileResponse
 from starlette.routing import Mount
@@ -19,11 +17,7 @@ APP_ENV = os.getenv('APP_ENV', 'development')
 templates = Jinja2Templates(directory='app/templates')
 routes = [
     Mount('/static', app=StaticFiles(directory='app/static'), name="static")]
-middleware = []
-if APP_ENV == 'production':
-    middleware.append(Middleware(HTTPSRedirectMiddleware))
-
-app = Starlette(routes=routes, middleware=middleware)
+app = Starlette(routes=routes)
 
 init_firebase_admin()
 
