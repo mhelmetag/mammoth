@@ -47,17 +47,17 @@ async def register(request):
 @app.route('/firebase-messaging.js', methods=['GET'])
 async def messaging_js(request):
     if APP_ENV == 'production':
-        return FileResponse('app/dynamic/firebase-messaging.js')
+        return FileResponse('app/static/firebase-messaging.js')
     else:
-        return FileResponse('app/dynamic/firebase-messaging-dev.js')
+        return FileResponse('app/static/firebase-messaging-dev.js')
 
 
 @app.route('/firebase-messaging-sw.js', methods=['GET'])
 async def messaging_sw_js(request):
     if APP_ENV == 'production':
-        return FileResponse('app/dynamic/firebase-messaging-sw.js')
+        return FileResponse('app/static/firebase-messaging-sw.js')
     else:
-        return FileResponse('app/dynamic/firebase-messaging-dev-sw.js')
+        return FileResponse('app/static/firebase-messaging-dev-sw.js')
 
 
 @app.route('/api/lifts', methods=['GET'])
