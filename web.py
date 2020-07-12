@@ -32,7 +32,7 @@ async def root(request):
         lifts = session.query(Lift).filter(Lift.season == season).all()
         lift_dicts = [l._for_html() for l in lifts]
 
-        return templates.TemplateResponse('lifts/index.html', {'request': request, 'season': season, 'lifts': lift_dicts})
+        return templates.TemplateResponse('lifts/index.html.j2', {'request': request, 'season': season, 'lifts': lift_dicts})
     finally:
         session.close()
 
