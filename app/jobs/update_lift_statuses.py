@@ -57,7 +57,12 @@ def main():
 
         if any(updated):
             title = 'New Lift Updates from Mammoth'
-            body = f'{len(updated)} Lift(s) has/have updated status(es)'
+
+            body = ""
+            if len(updated) == 1:
+                body = f'1 Lift has an updated status'
+            else:
+                body = f'{len(updated)} Lifts have updated statuses'
 
             webpush_notification = messaging.WebpushNotification(
                 title=title,
@@ -67,7 +72,7 @@ def main():
                 renotify=True
             )
 
-            link = None
+            link = ""
             if os.getenv('APP_ENV', 'development') == 'production':
                 link = os.getenv('BASE_URL')
 
