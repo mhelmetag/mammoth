@@ -43,12 +43,18 @@
       </div>
       <div id="mammothNavbar" class="navbar-menu">
         <a href="/" class="navbar-item">
-          <span>Home</span>
+          <span>Current Lifts</span>
         </a>
+        {% block extra_nav_items %} {% endblock %}
       </div>
     </nav>
-    <div class="section" style="background-color: #f2f7ff;">
+    <div class="section" style="background-color: #f2f7ff; min-height: 80vh;">
       <div class="container">{% block content %}{% endblock %}</div>
     </div>
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>Built by Maxworld Technologies</p>
+      </div>
+    </footer>
   </body>
 </html>

@@ -13,6 +13,7 @@ import firebase_admin
 from firebase_admin import messaging
 
 APP_ENV = os.getenv('APP_ENV', 'development')
+SEASON = os.getenv('SEASON')
 
 templates = Jinja2Templates(directory='app/templates')
 routes = [
@@ -25,12 +26,15 @@ init_firebase_admin()
 @app.route('/', methods=['GET'])
 async def root(request):
     session = Session()
-    lifts = session.query(Lift).all()
-    lift_dicts = [l._for_html() for l in lifts]
 
-    session.close()
+    try:
+        season = request.query_params.get('season', SEASON)
+        lifts = session.query(Lift).filter(Lift.season == season).all()
+        lift_dicts = [l._for_html() for l in lifts]
 
-    return templates.TemplateResponse('lifts/index.html', {'request': request, 'lifts': lift_dicts})
+        return templates.TemplateResponse('lifts/index.html', {'request': request, 'season': season, 'lifts': lift_dicts})
+    finally:
+        session.close()
 
 
 @app.route('/register', methods=['POST'])
@@ -63,9 +67,13 @@ async def messaging_sw_js(request):
 @app.route('/api/lifts', methods=['GET'])
 async def lifts(request):
     session = Session()
-    lifts = session.query(Lift).all()
-    lift_dicts = [l._for_json() for l in lifts]
 
-    session.close()
+    try:
+        season = request.query_params.get('season', SEASON)
+        lifts = session.query(Lift).filter(Lift.season == season).all()
+        lift_dicts = [l._for_json() for l in lifts]
 
-    return JSONResponse({'lifts': lift_dicts})
+        return JSONResponse({'lifts': lift_dicts})
+
+    finally:
+        session.close()

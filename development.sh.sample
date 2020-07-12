@@ -1,5 +1,8 @@
+export APP_ENV=development
+export SEASON=Summer
 export BASE_URL=http://localhost:8000
-export MAMMOTH_STATUS_URL="https://www.mammothmountain.com/mvc/lifttraildata/getliftdata?resort=1&view=_mmsa_lift_status"
+export MAMMOTH_WINTER_LIFT_STATUS_URL="https://www.mammothmountain.com/mvc/lifttraildata/getliftdata?resort=1&view=_mmsa_lift_status"
+export MAMMOTH_SUMMER_LIFT_STATUS_URL="https://www.mammothmountain.com/mvc/lifttraildata/getliftdata?resort=1&view=_mmsa_slift_status"
 export FIREBASE_PROJECT_ID=
 export FIREBASE_PRIVATE_KEY_ID=
 export FIREBASE_PRIVATE_KEY=

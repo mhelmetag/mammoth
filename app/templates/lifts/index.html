@@ -1,5 +1,16 @@
 {% extends "layout.html" %}
 {% block title %}Home{% endblock %}
+{% block extra_nav_items %}
+{% if season == 'Summer' %}
+<a href="/?season=Winter" class="navbar-item">
+  <span>Winter Lifts</span>
+</a>
+{% else %}
+<a href="/?season=Summer" class="navbar-item">
+  <span>Summer Lifts</span>
+</a>
+{% endif %}
+{% endblock %}
 {% block content %}
 <div class="columns is-multiline">
   {% for lift in lifts %}
