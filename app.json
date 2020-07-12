@@ -1,0 +1,8 @@
+{
+  "name": "Mammoth",
+  "description": "Lift statuses and notifications for Mammoth Mountain",
+  "image": "heroku/python",
+  "repository": "https://github.com/mhelmetag/mammoth",
+  "keywords": ["python"],
+  "addons": ["heroku-postgresql", "heroku-scheduler"]
+}

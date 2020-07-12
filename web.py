@@ -9,7 +9,6 @@ from starlette.templating import Jinja2Templates
 from starlette.responses import JSONResponse, FileResponse
 from starlette.routing import Mount
 from starlette.staticfiles import StaticFiles
-import firebase_admin
 from firebase_admin import messaging
 
 APP_ENV = os.getenv('APP_ENV', 'development')
