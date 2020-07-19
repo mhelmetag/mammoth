@@ -10,7 +10,7 @@ const config = {
   projectId: "mammoth-dev",
   storageBucket: "mammoth-dev.appspot.com",
   messagingSenderId: "948031423183",
-  appId: "1:948031423183:web:f426dec7e2613d516b2dba"
+  appId: "1:948031423183:web:f426dec7e2613d516b2dba",
 };
 firebase.initializeApp(config);
 

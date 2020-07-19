@@ -5,7 +5,7 @@ const config = {
   projectId: "mammoth-ad2e7",
   storageBucket: "mammoth-ad2e7.appspot.com",
   messagingSenderId: "742699308187",
-  appId: "1:742699308187:web:9880d5d8fa92bfe6a6a23e"
+  appId: "1:742699308187:web:9880d5d8fa92bfe6a6a23e",
 };
 firebase.initializeApp(config);
 
@@ -15,15 +15,26 @@ messaging
   .then(() => {
     return messaging.getToken();
   })
-  .then(token => {
+  .then((token) => {
     fetch("/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ subscriber_id: token })
+      body: JSON.stringify({ subscriber_id: token }),
     })
-      .then(resp => resp.json())
-      .then(json => json);
+      .then((resp) => resp.json())
+      .then((json) => json);
   })
-  .catch(err => err);
+  .catch((err) => err);
 
-messaging.onMessage(message => message);
+messaging.onMessage((message) => createNotification(message));
+
+const createNotification = (message) => {
+  const content = document.querySelector("#content");
+  const section = content.parentNode;
+
+  let notification = document.createElement("div");
+  notification.className = "notification is-primary";
+  notification.innerText = message;
+
+  section.insertBefore(notification, content);
+};
