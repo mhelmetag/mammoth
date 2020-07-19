@@ -2,6 +2,8 @@ from app.db.session import Session
 from app.models.lift import Lift
 from app.shared.firebase import init_firebase_admin
 
+from app.shared.lift import status_url, translate_status
+
 import os
 from datetime import datetime
 
@@ -9,7 +11,6 @@ from dateutil.parser import parse
 from dateutil.tz import gettz
 from requests import get
 from bs4 import BeautifulSoup
-import firebase_admin
 from firebase_admin import messaging
 
 init_firebase_admin()
@@ -20,8 +21,8 @@ def main():
 
     try:
         season = os.getenv('SEASON')
-        lift_status_url = get_lift_status_url(season)
-        response = get(lift_status_url)
+        url = status_url(season)
+        response = get(url)
         json = response.json()
         html = json['data']
         soup = BeautifulSoup(html, 'html.parser')
@@ -97,32 +98,6 @@ def main():
 
     finally:
         session.close()
-
-
-def get_lift_status_url(season):
-    if season == 'Winter':
-        return os.getenv('MAMMOTH_WINTER_LIFT_STATUS_URL')
-    else:
-        return os.getenv('MAMMOTH_SUMMER_LIFT_STATUS_URL')
-
-
-def translate_status(status):
-    if status == 'open':
-        return 'Open'
-    elif status == 'sceniconly':
-        return 'For Scenic Rides Only'
-    elif status == 'within30':
-        return '30 Minutes or Less'
-    elif status == 'expected':
-        return 'Expected'
-    elif status == 'weatherhold':
-        return 'Hold - Weather'
-    elif status == 'maintenancehold':
-        return 'Hold - Maintenance'
-    elif status == 'closed':
-        return 'Closed'
-    else:
-        return 'Unknown'
 
 
 main()
