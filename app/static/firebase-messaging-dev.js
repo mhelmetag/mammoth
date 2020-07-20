@@ -26,15 +26,15 @@ messaging
   })
   .catch((err) => err);
 
-messaging.onMessage((message) => createNotification(message));
+messaging.onMessage((payload) => createNotification(payload));
 
-const createNotification = (message) => {
+const createNotification = (payload) => {
   const content = document.querySelector("#content");
   const section = content.parentNode;
 
   let notification = document.createElement("div");
   notification.className = "notification is-primary";
-  notification.innerText = message;
+  notification.innerText = payload.body || "Some Lifts have updated statuses";
 
   section.insertBefore(notification, content);
 };
