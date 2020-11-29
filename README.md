@@ -12,6 +12,28 @@ All times are in PDT or PST.
 
 Remember to load env variables (through something like `source development.sh`) or set them before starting the server.
 
+You'll also probably have to change the firebase config in the static firebase messaging and messaging service worker files (`app/static/firebase*`).
+
+## Dev Setup
+
+### Simple Local
+
+```sh
+pipenv shell
+pipenv sync
+source development.sh
+uvicorn web:app
+```
+
+### Fake Mammoth API (For Testing Notifications)
+
+```sh
+# with standard web:app running in a different window/process
+uvicorn fake:app
+# in another window/process
+python app/jobs/updated_lift_statuses.py
+```
+
 ## API
 
 ### Lifts
@@ -20,7 +42,7 @@ The lifts and their statuses.
 
 ### Spots Endpoint
 
-`GET /api/lifts`
+`GET /api/lifts?season=Winter`
 
 ```json
 {
