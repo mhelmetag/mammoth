@@ -29,7 +29,7 @@ async def root(request):
     try:
         season = request.query_params.get('season', SEASON)
         lifts = session.query(Lift).filter(
-            Lift.season == season).order_by(Lift.name.asc()).all()
+            Lift.season == season).order_by(Lift.last_updated.desc()).all()
         lift_dicts = [l._for_html() for l in lifts]
 
         return templates.TemplateResponse('lifts/index.html.j2', {'request': request, 'season': season, 'lifts': lift_dicts})
@@ -71,7 +71,7 @@ async def lifts(request):
     try:
         season = request.query_params.get('season', SEASON)
         lifts = session.query(Lift).filter(
-            Lift.season == season).order_by(Lift.name.asc()).all()
+            Lift.season == season).order_by(Lift.last_updated.desc()).all()
         lift_dicts = [l._for_json() for l in lifts]
 
         return JSONResponse({'lifts': lift_dicts})
