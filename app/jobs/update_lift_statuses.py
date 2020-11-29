@@ -8,6 +8,8 @@ import os
 from firebase_admin import messaging
 
 SEASON = os.getenv('SEASON')
+BASE_URL = os.getenv('BASE_URL')
+ENV = os.getenv('APP_ENV', 'development')
 
 init_firebase_admin()
 
@@ -43,14 +45,14 @@ def main():
             webpush_notification = messaging.WebpushNotification(
                 title=title,
                 body=body,
-                icon=f"{os.getenv('BASE_URL')}/static/icon.png",
-                badge=f"{os.getenv('BASE_URL')}/static/icon.png",
+                icon=f"{BASE_URL}/static/icon.png",
+                badge=f"{BASE_URL}/static/icon.png",
                 renotify=True
             )
 
             link = ''
-            if os.getenv('APP_ENV', 'development') == 'production':
-                link = os.getenv('BASE_URL')
+            if ENV == 'production':
+                link = BASE_URL
 
             webpush_fcm_options = messaging.WebpushFCMOptions(
                 link=link

@@ -10,10 +10,10 @@ from sqlalchemy import pool
 
 from alembic import context
 
-config = context.config
+DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://localhost/mammoth')
 
-url = os.getenv('DATABASE_URL', 'postgresql://localhost/mammoth')
-config.set_main_option('sqlalchemy.url', url)
+config = context.config
+config.set_main_option('sqlalchemy.url', DATABASE_URL)
 
 fileConfig(config.config_file_name)
 

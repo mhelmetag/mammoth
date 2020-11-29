@@ -6,10 +6,14 @@ from dateutil.tz import gettz
 from requests import get
 from bs4 import BeautifulSoup
 
+SEASON = os.getenv('SEASON')
+MAMMOTH_WINTER_LIFT_STATUS_URL = os.getenv('MAMMOTH_WINTER_LIFT_STATUS_URL')
+MAMMOTH_SUMMER_LIFT_STATUS_URL = os.getenv('MAMMOTH_SUMMER_LIFT_STATUS_URL')
+
 
 class LiftService:
     def __init__(self):
-        self.season = os.getenv('SEASON')
+        self.season = SEASON
 
     def fetch_lifts(self):
         url = self._status_url()
@@ -47,9 +51,9 @@ class LiftService:
 
     def _status_url(self):
         if self.season == 'Winter':
-            return os.getenv('MAMMOTH_WINTER_LIFT_STATUS_URL')
+            return MAMMOTH_WINTER_LIFT_STATUS_URL
         else:
-            return os.getenv('MAMMOTH_SUMMER_LIFT_STATUS_URL')
+            return MAMMOTH_SUMMER_LIFT_STATUS_URL
 
     def _translate_status(self, status):
         if status == 'open':
