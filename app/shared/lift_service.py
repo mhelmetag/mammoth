@@ -34,11 +34,11 @@ class LiftService:
                     row.find('td', {'class': 'lift-last-update'}).find('span').getText())
 
                 lift = {
-                    "name": name,
-                    "status": status,
-                    "kind": kind,
-                    "season": season,
-                    "last_updated": last_updated
+                    'name': name,
+                    'status': status,
+                    'kind': kind,
+                    'season': season,
+                    'last_updated': last_updated
                 }
 
                 lifts.append(lift)
@@ -87,7 +87,7 @@ class LiftService:
 
     def _last_updated(self, last_updated_raw):
         if last_updated_raw != 'N/A':
-            last_updated_pst = f"{last_updated_raw} PST"
+            last_updated_pst = f'{last_updated_raw} PST'
             return parse(last_updated_pst, tzinfos={
                 'PST': gettz('America/Los_Angeles')})
         else:
