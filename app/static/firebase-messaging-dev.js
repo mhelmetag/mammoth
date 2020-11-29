@@ -34,7 +34,10 @@ const createNotification = (payload) => {
 
   let notification = document.createElement("div");
   notification.className = "notification is-primary";
-  notification.innerText = payload.body || "Some Lifts have updated statuses";
+  let notificationText = payload.body || "Some lifts have updated statuses";
+  notification.innerText = `${notificationText}. Refresh the page to see more.`;
 
   section.insertBefore(notification, content);
+
+  setTimeout(() => { notification.remove() }, 5000);
 };

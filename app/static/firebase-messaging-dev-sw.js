@@ -15,15 +15,3 @@ const config = {
 firebase.initializeApp(config);
 
 const messaging = firebase.messaging();
-messaging.setBackgroundMessageHandler(function (payload) {
-  const notificationTitle = "New Lift Updates from Mammoth";
-  const notificationOptions = {
-    body: payload.body || "Some Lifts have updated statuses",
-    icon: "/static/icon.png",
-  };
-
-  return self.registration.showNotification(
-    notificationTitle,
-    notificationOptions
-  );
-});
