@@ -40,7 +40,7 @@ def main():
             if len(updated) == 1:
                 body = f'1 Lift has an updated status'
             else:
-                body = f'{len(updated)} Lifts have updated statuses'
+                body = f'{len(updated)} lifts have updated statuses'
 
             webpush_notification = messaging.WebpushNotification(
                 title=title,
@@ -59,7 +59,7 @@ def main():
             )
             webpush_config = messaging.WebpushConfig(
                 notification=webpush_notification,
-                fcm_options=webpush_fcm_options
+                # fcm_options=webpush_fcm_options
             )
             notification = messaging.Notification(
                 title=title,

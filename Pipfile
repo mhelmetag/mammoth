@@ -1,3 +1,6 @@
+[scripts]
+test = "python -m unittest discover"
+
 [[source]]
 name = "pypi"
 url = "https://pypi.org/simple"

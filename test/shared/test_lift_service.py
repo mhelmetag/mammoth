@@ -22,7 +22,7 @@ def mocked_winter_lift(*args, **kwargs):
         return MockResponse(data, 200)
 
 
-class LiftServiceTest(TestCase):
+class TestLiftService(TestCase):
     @mock.patch.dict(os.environ, {'SEASON': 'Winter'})
     @mock.patch('app.shared.lift_service.get', side_effect=mocked_winter_lift)
     def test_winter_lifts(self, mock_get):
