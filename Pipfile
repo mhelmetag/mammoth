@@ -1,4 +1,6 @@
 [scripts]
+web = "uvicorn web:app"
+fake = "uvicorn fake:app --port 8001"
 test = "python -m unittest discover"
 
 [[source]]

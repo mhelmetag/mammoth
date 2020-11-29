@@ -8,7 +8,7 @@ This app shows you the lift statuses for Mammoth Mountain in a mobile-friendly l
 
 All times are in PDT or PST.
 
-`SEASON` ENV key can be summer or winter. That will change whether the updated or seeded lift info is for that specific season.
+`SEASON` ENV key can be `Summer` or `Winter`. That will change whether the updated or seeded lift info is for that specific season (uses different URLs).
 
 Remember to load env variables (through something like `source development.sh`) or set them before starting the server.
 
