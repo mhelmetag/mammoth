@@ -13,7 +13,7 @@ ENV = os.getenv('APP_ENV', 'development')
 init_firebase_admin()
 
 
-def notification_body(updated):
+def _notification_body(updated):
     if len(updated) == 1:
         return f'1 lift has an updated status'
     else:
@@ -42,7 +42,7 @@ def main():
 
         if any(updated):
             title = 'New Lift Updates from Mammoth'
-            body = notification_body(updated)
+            body = _notification_body(updated)
             notification = messaging.Notification(
                 title=title,
                 body=body

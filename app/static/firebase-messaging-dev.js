@@ -27,7 +27,6 @@ messaging
   .catch((err) => err);
 
 messaging.onMessage((payload) => createNotification(payload));
-
 const createNotification = (payload) => {
   const content = document.querySelector("#content");
   const section = content.parentNode;
@@ -39,5 +38,5 @@ const createNotification = (payload) => {
 
   section.insertBefore(notification, content);
 
-  setTimeout(() => { notification.remove() }, 5000);
+  setTimeout(() => { notification.remove() }, 15000);
 };
