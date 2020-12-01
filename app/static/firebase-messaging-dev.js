@@ -34,7 +34,7 @@ const createNotification = (payload) => {
 
   let notification = document.createElement("div");
   notification.className = "notification is-primary";
-  let notificationText = payload.body || "Some lifts have updated statuses";
+  const notificationText = payload.notification.body || "Some lifts have updated statuses";
   notification.innerText = `${notificationText}. Refresh the page to see more.`;
 
   section.insertBefore(notification, content);
