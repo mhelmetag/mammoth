@@ -27,17 +27,16 @@ messaging
   .catch((err) => err);
 
 messaging.onMessage((payload) => createNotification(payload));
-
 const createNotification = (payload) => {
   const content = document.querySelector("#content");
   const section = content.parentNode;
 
   let notification = document.createElement("div");
   notification.className = "notification is-primary";
-  let notificationText = payload.body || "Some lifts have updated statuses";
+  const notificationText = payload.notification.body || "Some lifts have updated statuses";
   notification.innerText = `${notificationText}. Refresh the page to see more.`;
 
   section.insertBefore(notification, content);
 
-  setTimeout(() => { notification.remove() }, 5000);
+  setTimeout(() => { notification.remove() }, 15000);
 };

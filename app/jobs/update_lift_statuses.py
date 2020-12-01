@@ -8,10 +8,16 @@ import os
 from firebase_admin import messaging
 
 SEASON = os.getenv('SEASON')
-BASE_URL = os.getenv('BASE_URL')
 ENV = os.getenv('APP_ENV', 'development')
 
 init_firebase_admin()
+
+
+def _notification_body(updated):
+    if len(updated) == 1:
+        return f'1 lift has an updated status'
+    else:
+        return f'{len(updated)} lifts have updated statuses'
 
 
 def main():
@@ -29,46 +35,21 @@ def main():
             if stored_lift and stored_lift.status != lift['status']:
                 stored_lift.status = lift['status']
                 stored_lift.last_updated = lift['last_updated']
+
                 session.commit()
 
                 updated.append(lift)
 
         if any(updated):
             title = 'New Lift Updates from Mammoth'
-
-            body = ''
-            if len(updated) == 1:
-                body = f'1 Lift has an updated status'
-            else:
-                body = f'{len(updated)} lifts have updated statuses'
-
-            webpush_notification = messaging.WebpushNotification(
-                title=title,
-                body=body,
-                icon=f"{BASE_URL}/static/icon.png",
-                badge=f"{BASE_URL}/static/icon.png",
-                renotify=True
-            )
-
-            link = ''
-            if ENV == 'production':
-                link = BASE_URL
-
-            webpush_fcm_options = messaging.WebpushFCMOptions(
-                link=link
-            )
-            webpush_config = messaging.WebpushConfig(
-                notification=webpush_notification,
-                # fcm_options=webpush_fcm_options
-            )
+            body = _notification_body(updated)
             notification = messaging.Notification(
                 title=title,
                 body=body
             )
             message = messaging.Message(
                 topic='updates',
-                notification=notification,
-                webpush=webpush_config
+                notification=notification
             )
 
             messaging.send(message)
