@@ -19,9 +19,9 @@ class NotificationService:
 
     def _message(self):
         if APP_ENV == 'development':
-            return self.development_message()
+            return self._development_message()
         else:
-            return self.production_message()
+            return self._production_message()
 
     def _development_message(self):
         notification = self._notification()
