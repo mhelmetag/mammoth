@@ -14,7 +14,7 @@ class MockResponse:
         return self.json_data
 
 
-def mocked_winter_lift(*args, **kwargs):
+def _mocked_winter_lift(*args, **kwargs):
     with open('test/shared/winter_lifts.json', 'r') as file:
         json_data = file.read()
         data = json.loads(json_data)
@@ -24,11 +24,13 @@ def mocked_winter_lift(*args, **kwargs):
 
 class TestLiftService(TestCase):
     @mock.patch.dict(os.environ, {'SEASON': 'Winter'})
-    @mock.patch('app.shared.lift_service.get', side_effect=mocked_winter_lift)
+    @mock.patch('app.shared.lift_service.get', side_effect=_mocked_winter_lift)
     def test_winter_lifts(self, mock_get):
         lifts_service = LiftService()
         lifts = lifts_service.fetch_lifts()
         lift = lifts[0]
+
+        mock_get.assert_called_once_with('http://localhost:8001')
 
         self.assertEqual(lift['name'], 'Broadway Express 1')
         self.assertEqual(lift['status'], 'Expected')
