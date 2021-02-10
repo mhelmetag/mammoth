@@ -53,7 +53,7 @@ class NotificationService:
         return messaging.Notification(
             title=NOTIFICATION_TITLE,
             body=body,
-            image='/static/icon.png'
+            image=f'{BASE_URL}/static/icon.png'
         )
 
     def _notification_body(self):
