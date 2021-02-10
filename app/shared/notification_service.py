@@ -35,7 +35,7 @@ class NotificationService:
     def _production_message(self):
         notification = self._notification()
         webpush_notification = messaging.WebpushNotification(
-            icon="/static/icon.png"
+            icon=f'{BASE_URL}/static/icon.png'
         )
         webpush_fcm_options = messaging.WebpushFCMOptions(
             link=BASE_URL
