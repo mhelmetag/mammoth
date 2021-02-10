@@ -7,7 +7,7 @@ import os
 
 from firebase_admin import messaging
 
-SEASON = os.getenv('SEASON')
+SEASON = os.getenv('SEASON', 'Winter')
 ENV = os.getenv('APP_ENV', 'development')
 
 init_firebase_admin()
