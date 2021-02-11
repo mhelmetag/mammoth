@@ -24,10 +24,19 @@ class NotificationService:
             return self._production_message()
 
     def _development_message(self):
-        notification = self._notification()
+        body = self._notification_body()
+        webpush_notification = messaging.WebpushNotification(
+            title=NOTIFICATION_TITLE,
+            body=body,
+            icon='/static/icon.png'
+        )
+        webpush_config = messaging.WebpushConfig(
+            notification=webpush_notification,
+        )
+
         message = messaging.Message(
             topic=MESSAGE_TOPIC,
-            notification=notification
+            webpush=webpush_config
         )
 
         return message
@@ -53,14 +62,6 @@ class NotificationService:
         )
 
         return message
-
-    def _notification(self):
-        body = self._notification_body()
-
-        return messaging.Notification(
-            title=NOTIFICATION_TITLE,
-            body=body
-        )
 
     def _notification_body(self):
         if self.updated_count == 1:
