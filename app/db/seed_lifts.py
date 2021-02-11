@@ -2,8 +2,6 @@ from app.db.session import Session
 from app.models.lift import Lift
 from app.shared.lift_service import LiftService
 
-import os
-
 
 def main():
     session = Session()

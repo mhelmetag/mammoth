@@ -12,7 +12,7 @@ from starlette.staticfiles import StaticFiles
 from firebase_admin import messaging
 
 APP_ENV = os.getenv('APP_ENV', 'development')
-SEASON = os.getenv('SEASON')
+SEASON = os.getenv('SEASON', 'Winter')
 
 templates = Jinja2Templates(directory='app/templates')
 routes = [

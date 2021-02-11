@@ -1,21 +1,21 @@
 import os
 from datetime import datetime
+from typing import Any
 from dateutil.parser import parse
 from dateutil.tz import gettz
 
 from requests import get
 from bs4 import BeautifulSoup
 
-SEASON = os.getenv('SEASON')
-MAMMOTH_WINTER_LIFT_STATUS_URL = os.getenv('MAMMOTH_WINTER_LIFT_STATUS_URL')
-MAMMOTH_SUMMER_LIFT_STATUS_URL = os.getenv('MAMMOTH_SUMMER_LIFT_STATUS_URL')
+SEASON = os.getenv('SEASON', 'Winter')
+MAMMOTH_WINTER_LIFT_STATUS_URL = os.getenv(
+    'MAMMOTH_WINTER_LIFT_STATUS_URL', 'http://localhost:8001')
+MAMMOTH_SUMMER_LIFT_STATUS_URL = os.getenv(
+    'MAMMOTH_SUMMER_LIFT_STATUS_URL', 'http://localhost:8001')
 
 
 class LiftService:
-    def __init__(self):
-        self.season = SEASON
-
-    def fetch_lifts(self):
+    def fetch_lifts(self) -> list:
         url = self._status_url()
         response = get(url)
         json = response.json()
@@ -33,7 +33,6 @@ class LiftService:
                 status = self._translate_status(status_element['class'][1])
                 kind = self._translate_kind(
                     row.find('td', {'class': 'lift-chair-icon'})['class'][1])
-                season = self.season
                 last_updated = self._last_updated(
                     row.find('td', {'class': 'lift-last-update'}).find('span').getText())
 
@@ -41,7 +40,7 @@ class LiftService:
                     'name': name,
                     'status': status,
                     'kind': kind,
-                    'season': season,
+                    'season': SEASON,
                     'last_updated': last_updated
                 }
 
@@ -49,13 +48,13 @@ class LiftService:
 
         return lifts
 
-    def _status_url(self):
-        if self.season == 'Winter':
+    def _status_url(_) -> str:
+        if SEASON == 'Winter':
             return MAMMOTH_WINTER_LIFT_STATUS_URL
         else:
             return MAMMOTH_SUMMER_LIFT_STATUS_URL
 
-    def _translate_status(self, status):
+    def _translate_status(_, status: str) -> str:
         if status == 'open':
             return 'Open'
         elif status == 'sceniconly':
@@ -73,7 +72,7 @@ class LiftService:
         else:
             return 'Unknown'
 
-    def _translate_kind(self, kind):
+    def _translate_kind(_, kind: str) -> str:
         if kind == 'chair2':
             return 'Double'
         elif kind == 'chair3':
@@ -89,7 +88,7 @@ class LiftService:
         else:
             return 'Unknown'
 
-    def _last_updated(self, last_updated_raw):
+    def _last_updated(_, last_updated_raw: str) -> datetime:
         if last_updated_raw != 'N/A':
             last_updated_pst = f'{last_updated_raw} PST'
             return parse(last_updated_pst, tzinfos={

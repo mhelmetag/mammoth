@@ -19,14 +19,14 @@ You'll also probably have to change the firebase config in the static firebase m
 ```sh
 pipenv shell
 pipenv sync
-pipenv web
+pipenv run web
 ```
 
 ### Fake Mammoth API (For Testing Notifications)
 
 ```sh
 # with standard web running in a different window/process
-pipenv fake
+pipenv run fake
 # in another window/process
 python app/jobs/updated_lift_statuses.py
 ```
@@ -34,7 +34,7 @@ python app/jobs/updated_lift_statuses.py
 ### Run Tests
 
 ```sh
-pipenv test
+pipenv run test
 ```
 
 ## API
