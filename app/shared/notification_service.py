@@ -33,9 +33,11 @@ class NotificationService:
         return message
 
     def _production_message(self):
-        notification = self._notification()
+        body = self._notification_body()
         webpush_notification = messaging.WebpushNotification(
-            icon=f'{BASE_URL}/static/icon.png'
+            title=NOTIFICATION_TITLE,
+            body=body,
+            icon='/static/icon.png'
         )
         webpush_fcm_options = messaging.WebpushFCMOptions(
             link=BASE_URL
@@ -44,9 +46,9 @@ class NotificationService:
             notification=webpush_notification,
             fcm_options=webpush_fcm_options
         )
+
         message = messaging.Message(
             topic=MESSAGE_TOPIC,
-            notification=notification,
             webpush=webpush_config
         )
 
@@ -54,6 +56,7 @@ class NotificationService:
 
     def _notification(self):
         body = self._notification_body()
+
         return messaging.Notification(
             title=NOTIFICATION_TITLE,
             body=body
