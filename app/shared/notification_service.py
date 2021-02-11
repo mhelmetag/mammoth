@@ -18,10 +18,10 @@ class NotificationService:
         messaging.send(message)
 
     def _message(self):
-        if APP_ENV == 'development':
-            return self._development_message()
-        else:
+        if APP_ENV == 'production':
             return self._production_message()
+        else:
+            return self._development_message()
 
     def _development_message(self):
         body = self._notification_body()
