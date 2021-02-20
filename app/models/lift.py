@@ -24,21 +24,21 @@ class Lift(Base):
     last_updated = Column(DateTime, nullable=False)
 
     @validates('status')
-    def validate_status(self, key, status):
+    def validate_status(self, _, status):
         if not status in self.STATUSES:
             raise ValueError("kind must be one of: ", self.STATUSES)
         else:
             return status
 
     @validates('kind')
-    def validate_kind(self, key, kind):
+    def validate_kind(self, _, kind):
         if not kind in self.KINDS:
             raise ValueError("kind must be one of: ", self.KINDS)
         else:
             return kind
 
     @validates('season')
-    def validate_season(self, key, season):
+    def validate_season(self, _, season):
         if not season in self.SEASONS:
             raise ValueError("kind must be one of: ", self.SEASONS)
         else:
