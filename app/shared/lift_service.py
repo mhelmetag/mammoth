@@ -1,6 +1,5 @@
 import os
 from datetime import datetime
-from typing import Any
 from dateutil.parser import parse
 from dateutil.tz import gettz
 

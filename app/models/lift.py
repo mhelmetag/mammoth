@@ -3,7 +3,7 @@ from app.models.base import Base
 from dateutil.tz import gettz
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime, Index
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import validates
 
 
@@ -44,7 +44,7 @@ class Lift(Base):
         else:
             return season
 
-    def _for_html(self):
+    def for_html(self):
         return {
             'id': self.id,
             'name': self.name,
@@ -54,7 +54,7 @@ class Lift(Base):
             'last_updated': self._last_updated_for_html()
         }
 
-    def _for_json(self):
+    def for_json(self):
         return {
             'id': self.id,
             'name': self.name,
