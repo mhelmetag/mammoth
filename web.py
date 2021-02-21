@@ -1,3 +1,4 @@
+from app.models.latest_update import LatestUpdate
 from app.models.lift import Lift
 from app.db.session import Session
 from app.shared.firebase import init_firebase_admin
@@ -30,7 +31,7 @@ async def root(request):
         season = request.query_params.get('season', SEASON)
         lifts = session.query(Lift).filter(
             Lift.season == season).order_by(Lift.last_updated.desc()).all()
-        lift_dicts = [l._for_html() for l in lifts]
+        lift_dicts = [l.for_html() for l in lifts]
 
         return templates.TemplateResponse('lifts/index.html.j2', {'request': request, 'season': season, 'lifts': lift_dicts})
     finally:
@@ -65,16 +66,30 @@ async def messaging_sw_js(request):
 
 
 @app.route('/api/lifts', methods=['GET'])
-async def lifts(request):
+async def api_lifts(request):
     session = Session()
 
     try:
         season = request.query_params.get('season', SEASON)
         lifts = session.query(Lift).filter(
             Lift.season == season).order_by(Lift.last_updated.desc()).all()
-        lift_dicts = [l._for_json() for l in lifts]
+        lift_dicts = [l.for_json() for l in lifts]
 
         return JSONResponse({'lifts': lift_dicts})
+
+    finally:
+        session.close()
+
+
+@app.route('/api/latest_update', methods=['GET'])
+async def api_latest_update(request):
+    session = Session()
+
+    try:
+        latest_update = session.query(LatestUpdate).order_by(
+            LatestUpdate.id.desc()).one()
+
+        return JSONResponse(latest_update.for_json())
 
     finally:
         session.close()
