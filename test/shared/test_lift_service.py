@@ -15,11 +15,15 @@ class MockResponse:
 
 
 def _mocked_winter_lift(*args, **kwargs):
-    with open('test/shared/winter_lifts.json', 'r') as file:
-        json_data = file.read()
-        data = json.loads(json_data)
+    with open('test/shared/fixtures/winter.html', 'r') as file:
+        html = file.read()
+        data = {
+            'data': html,
+            'success': True,
+            'Message': None
+        }
 
-        return MockResponse(data, 200)
+    return MockResponse(data, 200)
 
 
 class TestLiftService(TestCase):
