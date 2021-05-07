@@ -7,7 +7,7 @@ from app.models.latest_update import LatestUpdate
 from app.shared.firebase import init_firebase_admin
 
 import os
-import time
+import datetime
 
 SEASON = os.getenv('SEASON', 'Winter')
 ENV = os.getenv('APP_ENV', 'development')
@@ -42,8 +42,9 @@ def main():
                 updates.append(update)
 
         if any(updates):
-            time = time.now()
-            latest_update = LatestUpdate(created_on=time, updates=updates)
+            current_time = datetime.time()
+            latest_update = LatestUpdate(
+                created_at=current_time, updates=updates)
             session.add(latest_update)
             session.commit()
 

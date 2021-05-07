@@ -29,11 +29,21 @@ async def root(request):
 
     try:
         season = request.query_params.get('season', SEASON)
+
+        latest_update = session.query(LatestUpdate).order_by(
+            LatestUpdate.id.desc()).first()
+        latest_update_dict = None
+        if latest_update:
+            latest_update_dict = latest_update.for_html()
+
         lifts = session.query(Lift).filter(
             Lift.season == season).order_by(Lift.last_updated.desc()).all()
         lift_dicts = [l.for_html() for l in lifts]
 
-        return templates.TemplateResponse('lifts/index.html.j2', {'request': request, 'season': season, 'lifts': lift_dicts})
+        template_params = {
+            'request': request, 'latest_update': latest_update_dict, 'season': season, 'lifts': lift_dicts}
+
+        return templates.TemplateResponse('lifts/index.html.j2', template_params)
     finally:
         session.close()
 
@@ -87,7 +97,7 @@ async def api_latest_update(request):
 
     try:
         latest_update = session.query(LatestUpdate).order_by(
-            LatestUpdate.id.desc()).one()
+            LatestUpdate.id.desc()).first()
 
         return JSONResponse(latest_update.for_json())
 

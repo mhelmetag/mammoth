@@ -1,4 +1,5 @@
 {% extends "layout.html.j2" %}
+
 {% block extra_nav_items %}
 {% if season == 'Summer' %}
 <a href="/?season=Winter" class="navbar-item">
@@ -10,7 +11,12 @@
 </a>
 {% endif %}
 {% endblock %}
+
 {% block content %}
+<div class="notification">
+  Lorem ipsum dolor sit amet, consectetur
+  adipiscing elit lorem ipsum dolor. <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur.
+</div>
 <div class="columns is-multiline">
   {% for lift in lifts %}
   <div class="column is-full">
