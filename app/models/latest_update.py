@@ -32,4 +32,4 @@ class LatestUpdate(Base):
             tz=gettz('America/Los_Angeles')).strftime('%-I:%M %p %Z')
 
     def _created_at_for_json(self):
-        self.created_at.replace(tzinfo=gettz('UTC')).isoformat()
+        return self.created_at.replace(tzinfo=gettz('UTC')).isoformat()
