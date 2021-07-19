@@ -49,6 +49,7 @@ class Lift(Base):
             'id': self.id,
             'name': self.name,
             'status': self.status,
+            'status_color': self._status_color_for_html(),
             'kind': self.kind,
             'season': self.season,
             'last_updated': self._last_updated_for_html()
@@ -73,6 +74,17 @@ class Lift(Base):
         else:
             return last_updated.replace(tzinfo=gettz('UTC')).astimezone(
                 tz=gettz('America/Los_Angeles')).strftime('%-I:%M %p %Z')
+
+    def _status_color_for_html(self):
+        status = self.status
+
+        if status in ['Open', 'For Scenic Rides Only']:
+            return 'limegreen'
+        elif status in ['30 Minutes or Less', 'Expected', 'Hold - Weather', 'Hold - Maintenance']:
+            return 'orange'
+        else:
+            # for 'Closed', 'Unknown' and any others
+            return 'tomato'
 
     def _last_updated_for_json(self):
         return self.last_updated.replace(tzinfo=gettz('UTC')).isoformat()

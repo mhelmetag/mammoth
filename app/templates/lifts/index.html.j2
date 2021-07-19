@@ -14,14 +14,18 @@
 
 {% block content %}
 {% if updates %}
-<div class="notification is-primary">
-  <p>Last Updated at {{updates.created_at}}<p>
-  <ul>
-  {% for update in updates.updates %}
-    <li>{{update['name']}}: {{update['from']}} -> {{update['to']}}</li>
-  {% endfor %}
-  </ul>
-</div>
+<article class="message is-light">
+  <div class="message-header">
+    <p>Last Updated at {{updates.created_at}}</p>
+  </div>
+  <div class="message-body">
+    <ul>
+    {% for update in updates.updates %}
+      <li>{{update['name']}}: {{update['from']}} -> {{update['to']}}</li>
+    {% endfor %}
+    </ul>
+  </div>
+</article>
 {% endif %}
 {% if lifts %}
 <div class="box table-container">
@@ -37,7 +41,7 @@
     {% for lift in lifts %}
     <tbody>
       <td>{{lift['name']}}</td>
-      <td>{{lift['status']}}</td>
+      <td><span>{{lift['status']}} <i class="fa fa-circle" style="color:{{lift['status_color']}}"></i><span></td>
       <td>{{lift['kind']}}</td>
       <td>{{lift['last_updated']}}</td>
     </tbody>
