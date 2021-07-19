@@ -11,7 +11,7 @@ class LatestUpdate(Base):
     id = Column(Integer, primary_key=True)
     created_at = Column(DateTime, nullable=False)
     updates = Column(JSON, nullable=False)
-    season = Column(String, nullable=False)
+    season = Column(String, nullable=False, index=True)
 
     def for_html(self):
         return {
