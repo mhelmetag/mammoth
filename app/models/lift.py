@@ -3,7 +3,7 @@ from app.models.base import Base
 from dateutil.tz import gettz
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime, Index
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import validates
 
 
@@ -24,27 +24,27 @@ class Lift(Base):
     last_updated = Column(DateTime, nullable=False)
 
     @validates('status')
-    def validate_status(self, key, status):
+    def validate_status(self, _, status):
         if not status in self.STATUSES:
             raise ValueError("kind must be one of: ", self.STATUSES)
         else:
             return status
 
     @validates('kind')
-    def validate_kind(self, key, kind):
+    def validate_kind(self, _, kind):
         if not kind in self.KINDS:
             raise ValueError("kind must be one of: ", self.KINDS)
         else:
             return kind
 
     @validates('season')
-    def validate_season(self, key, season):
+    def validate_season(self, _, season):
         if not season in self.SEASONS:
             raise ValueError("kind must be one of: ", self.SEASONS)
         else:
             return season
 
-    def _for_html(self):
+    def for_html(self):
         return {
             'id': self.id,
             'name': self.name,
@@ -54,7 +54,7 @@ class Lift(Base):
             'last_updated': self._last_updated_for_html()
         }
 
-    def _for_json(self):
+    def for_json(self):
         return {
             'id': self.id,
             'name': self.name,

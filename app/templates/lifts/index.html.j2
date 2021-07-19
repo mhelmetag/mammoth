@@ -1,4 +1,5 @@
 {% extends "layout.html.j2" %}
+
 {% block extra_nav_items %}
 {% if season == 'Summer' %}
 <a href="/?season=Winter" class="navbar-item">
@@ -10,57 +11,42 @@
 </a>
 {% endif %}
 {% endblock %}
+
 {% block content %}
-<div class="columns is-multiline">
-  {% for lift in lifts %}
-  <div class="column is-full">
-    <div class="card">
-      <div class="card-content">
-        <div class="columns is-mobile">
-          <div class="column has-text-centered">
-            <div>
-              <p class="heading is-size-4-desktop is-size-7-mobile">
-                Name
-              </p>
-              <p class="title is-size-4-desktop is-size-7-mobile">
-                {{lift['name']}}
-              </p>
-            </div>
-          </div>
-          <div class="column has-text-centered">
-            <div>
-              <p class="heading is-size-4-desktop is-size-7-mobile">
-                Status
-              </p>
-              <p class="title is-size-4-desktop is-size-7-mobile">
-                {{lift['status']}}
-              </p>
-            </div>
-          </div>
-          <div class="column has-text-centered">
-            <div>
-              <p class="heading is-size-4-desktop is-size-7-mobile">
-                Kind
-              </p>
-              <p class="title is-size-4-desktop is-size-7-mobile">
-                {{lift['kind']}}
-              </p>
-            </div>
-          </div>
-          <div class="column has-text-centered">
-            <div>
-              <p class="heading is-size-4-desktop is-size-7-mobile">
-                Last Updated
-              </p>
-              <p class="title is-size-4-desktop is-size-7-mobile">
-                {{lift['last_updated']}}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+{% if updates %}
+<div class="notification is-primary">
+  <p>Last Updated at {{updates.created_at}}<p>
+  <ul>
+  {% for update in updates.updates %}
+    <li>{{update['name']}}: {{update['from']}} -> {{update['to']}}</li>
   {% endfor %}
+  </ul>
 </div>
+{% endif %}
+{% if lifts %}
+<div class="box table-container">
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Kind</th>
+        <th>Last Updated</th>
+      </tr>
+    <thead>
+    {% for lift in lifts %}
+    <tbody>
+      <td>{{lift['name']}}</td>
+      <td>{{lift['status']}}</td>
+      <td>{{lift['kind']}}</td>
+      <td>{{lift['last_updated']}}</td>
+    </tbody>
+    {% endfor %}
+  </table>
+</div>
+{% else %}
+<div>
+  <p class="has-text-centered is-size-2-desktop is-size-4-mobile">Dude, where are the lifts?</h1>
+</div>
+{% endif %}
 {% endblock %}
