@@ -2,7 +2,7 @@ from app.models.base import Base
 
 from dateutil.tz import gettz
 
-from sqlalchemy import Column, Integer, DateTime, JSON
+from sqlalchemy import Column, Integer, DateTime, String, JSON
 
 
 class LatestUpdate(Base):
@@ -11,15 +11,18 @@ class LatestUpdate(Base):
     id = Column(Integer, primary_key=True)
     created_at = Column(DateTime, nullable=False)
     updates = Column(JSON, nullable=False)
+    season = Column(String, nullable=False)
 
     def for_html(self):
         return {
+            'id': self.id,
             'created_at': self._created_at_for_html(),
             'updates': self.updates
         }
 
     def for_json(self):
         return {
+            'id': self.id,
             'created_at': self._created_at_for_json(),
             'updates': self.updates
         }

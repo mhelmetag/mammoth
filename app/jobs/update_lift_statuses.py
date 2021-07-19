@@ -1,4 +1,3 @@
-from sqlalchemy.sql.sqltypes import DateTime
 from app.shared.notification_service import NotificationService
 from app.db.session import Session
 from app.models.lift import Lift
@@ -7,7 +6,7 @@ from app.models.latest_update import LatestUpdate
 from app.shared.firebase import init_firebase_admin
 
 import os
-import datetime
+from datetime import datetime
 
 SEASON = os.getenv('SEASON', 'Winter')
 ENV = os.getenv('APP_ENV', 'development')
@@ -42,9 +41,9 @@ def main():
                 updates.append(update)
 
         if any(updates):
-            current_time = datetime.time()
+            current_time = datetime.utcnow()
             latest_update = LatestUpdate(
-                created_at=current_time, updates=updates)
+                created_at=current_time, updates=updates, season=SEASON)
             session.add(latest_update)
             session.commit()
 
