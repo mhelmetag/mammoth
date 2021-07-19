@@ -3,6 +3,7 @@ from app.models.lift import Lift
 from app.models.latest_update import LatestUpdate
 
 import os
+import re
 
 from logging.config import fileConfig
 
@@ -13,8 +14,11 @@ from alembic import context
 
 DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://localhost/mammoth')
 
+# heroku using postgres:// but sqlalchemy wanting postgresql://
+CORRECTED_DATABASE_URL = re.sub('postgres:', 'postgresql:', DATABASE_URL)
+
 config = context.config
-config.set_main_option('sqlalchemy.url', DATABASE_URL)
+config.set_main_option('sqlalchemy.url', CORRECTED_DATABASE_URL)
 
 fileConfig(config.config_file_name)
 
