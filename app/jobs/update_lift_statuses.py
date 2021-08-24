@@ -44,7 +44,9 @@ def main():
             current_time = datetime.utcnow()
             latest_update = LatestUpdate(
                 created_at=current_time, updates=updates, season=SEASON)
+
             session.add(latest_update)
+
             session.commit()
 
             notification_service = NotificationService(len(updates))

@@ -1,0 +1,52 @@
+[
+  {
+    "created_at": "2021-07-19T08:11:22.071409",
+    "updates": [
+      { "name": "Discovery Express 11", "from": "Expected", "to": "Open" },
+      { "name": "Panorama Lower", "from": "Expected", "to": "Open" },
+      { "name": "Panorama Upper", "from": "Expected", "to": "Open" }
+    ]
+  },
+  {
+    "created_at": "2021-07-19T10:12:41.426689",
+    "updates": [
+      {
+        "name": "Discovery Express 11",
+        "from": "Open",
+        "to": "Hold - Weather"
+      }
+    ]
+  },
+  {
+    "created_at": "2021-07-19T12:05:17.99443",
+    "updates": [
+      {
+        "name": "Discovery Express 11",
+        "from": "Hold - Weather",
+        "to": "Open"
+      }
+    ]
+  },
+  {
+    "created_at": "2021-07-19T13:25:38.99803",
+    "updates": [
+      {
+        "name": "Discovery Express 11",
+        "from": "Open",
+        "to": "Hold - Weather"
+      }
+    ]
+  },
+  {
+    "created_at": "2021-07-19T13:32:59.675852",
+    "updates": [
+      {
+        "name": "Discovery Express 11",
+        "from": "Hold - Weather",
+        "to": "Closed"
+      },
+      { "name": "Panorama Upper", "from": "Open", "to": "Closed" },
+      { "name": "Panorama Lower", "from": "Open", "to": "Closed" }
+    ]
+  }
+]
