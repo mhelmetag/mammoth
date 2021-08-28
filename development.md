@@ -18,8 +18,31 @@ In the summer, the Discovery Chair lift should be open from 9AM - 5PM PST daily.
 
 Let's say that today the Discovery Chair was in the state 'Hold - Weather' from 1PM - 2PM PST. It's `time_closed` was 60 minutes (1 hour). We can then calculate it's `uptime` for the day as `(480 - 60) / 480` or `87.5%`.
 
+### Gathering test data
+
+```sql
+select
+  id,
+  created_at at time zone 'utc' at time zone 'pdt' as created_at,
+  updates
+from latest_updates;
+```
+
+This query has a least a few lifts that were closed for weather on 2021-07-19.
+
+```sql
+select row_to_json(lift_data) from (
+  select
+    created_at at time zone 'utc' at time zone 'pdt' as created_at,
+    updates
+  from latest_updates
+  where created_at
+    between '2021-07-19 00:00' and '2021-07-20 00:00'
+) lift_data;
+```
+
+Then replace `\n` with `\n` and wrap in `[]` to make it an array.
+
 ### How to
 
 Lift `uptime` should be stored on the `lifts` and updated on a weekly basis from the previous week's `latest_updates`.
-
-For each lift, 
