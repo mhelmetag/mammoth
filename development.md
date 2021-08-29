@@ -14,9 +14,9 @@ Time could be in minutes for ease of comparison
 
 ### Example
 
-In the summer, the Discovery Chair lift should be open from 9AM - 5PM PST daily. That means the `time_normally_open` should be 480 minutes (8 hours).
+In the summer, the Discovery Chair lift should be open from 9AM - 5PM PDT daily. That means the `time_normally_open` should be 480 minutes (8 hours).
 
-Let's say that today the Discovery Chair was in the state 'Hold - Weather' from 1PM - 2PM PST. It's `time_closed` was 60 minutes (1 hour). We can then calculate it's `uptime` for the day as `(480 - 60) / 480` or `87.5%`.
+Let's say that today the Discovery Chair was in the state 'Hold - Weather' from 1PM - 2PM PST. It's `time_closed` was 60 minutes (1 hour). We can then calculate it's `uptime` for the day as `round(((480 - 60) / 480) * 100)` or `88`.
 
 ### Gathering test data
 
@@ -41,8 +41,4 @@ select row_to_json(lift_data) from (
 ) lift_data;
 ```
 
-Then replace `\n` with `\n` and wrap in `[]` to make it an array.
-
-### How to
-
-Lift `uptime` should be stored on the `lifts` and updated on a weekly basis from the previous week's `latest_updates`.
+Then replace `\n` with `,\n` and wrap in `[]` to make it an array.
