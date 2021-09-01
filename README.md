@@ -43,8 +43,6 @@ pipenv run test
 
 The lifts and their statuses.
 
-### Spots Endpoint
-
 `GET /api/lifts?season=Winter`
 
 ```json
@@ -56,6 +54,26 @@ The lifts and their statuses.
       "status": "Closed",
       "kind": "Quad",
       "last_updated": "2020-03-15T13:05:00+00:00"
+    }
+  ]
+}
+```
+
+### Latest Update
+
+The most recent lift update.
+
+`GET /api/latest_update`
+
+```json
+{
+  "id": 1,
+  "created_on": "2020-03-15T13:05:00+00:00",
+  "updates": [
+    {
+      "name": "Broadway Express 1",
+      "from": "Expected",
+      "to": "Open"
     }
   ]
 }
