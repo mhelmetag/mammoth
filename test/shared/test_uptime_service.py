@@ -19,10 +19,12 @@ class TestUptimeService(TestCase):
     def test_lift_not_open(self):
         seasonal_lifts = ['Stump Alley Express 2', 'Canyon Express 16',
                           'Discovery Express 11', 'Panorama Lower', 'Panorama Upper']
+        day_of_week = 0
         latest_updates = _load_latest_updates(
             'test/shared/fixtures/lifts_with_no_downtime.json')
 
-        uptime_service = UptimeService(seasonal_lifts, latest_updates)
+        uptime_service = UptimeService(
+            seasonal_lifts, day_of_week, latest_updates)
         uptimes = uptime_service.calculate_uptimes()
 
         uptime = uptimes['Canyon Express 16']
@@ -33,10 +35,12 @@ class TestUptimeService(TestCase):
     def test_lifts_closed_early(self):
         seasonal_lifts = ['Stump Alley Express 2', 'Canyon Express 16',
                           'Discovery Express 11', 'Panorama Lower', 'Panorama Upper']
+        day_of_week = 0
         latest_updates = _load_latest_updates(
             'test/shared/fixtures/lifts_with_no_downtime.json')
 
-        uptime_service = UptimeService(seasonal_lifts, latest_updates)
+        uptime_service = UptimeService(
+            seasonal_lifts, day_of_week, latest_updates)
         uptimes = uptime_service.calculate_uptimes()
 
         uptime = uptimes['Discovery Express 11']
@@ -48,10 +52,12 @@ class TestUptimeService(TestCase):
     def test_lifts_with_downtime(self):
         seasonal_lifts = ['Stump Alley Express 2', 'Canyon Express 16',
                           'Discovery Express 11', 'Panorama Lower', 'Panorama Upper']
+        day_of_week = 0
         latest_updates = _load_latest_updates(
             'test/shared/fixtures/lifts_with_downtime.json')
 
-        uptime_service = UptimeService(seasonal_lifts, latest_updates)
+        uptime_service = UptimeService(
+            seasonal_lifts, day_of_week, latest_updates)
         uptimes = uptime_service.calculate_uptimes()
 
         uptime = uptimes['Discovery Express 11']

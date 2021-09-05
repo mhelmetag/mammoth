@@ -24,7 +24,7 @@ def main():
         updates = []
         for lift in lifts:
             stored_lift = session.query(Lift).filter(
-                Lift.season.like(SEASON), Lift.name.like(lift['name'])).first()
+                Lift.season == SEASON, Lift.name == lift['name']).first()
 
             if stored_lift and stored_lift.status != lift['status']:
                 update = {

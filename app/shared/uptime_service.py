@@ -63,9 +63,10 @@ WINTER_LIFT_SCHEDULES = {}
 
 
 class UptimeService:
-    def __init__(self, seasonal_lifts, latest_updates):
+    def __init__(self, seasonal_lifts, day_of_week, latest_updates):
         self.lift_schedules = self._lift_schedules()
         self.seasonal_lifts = seasonal_lifts
+        self.day_of_week = day_of_week
         self.latest_updates = latest_updates
 
     def calculate_uptimes(self):
@@ -89,8 +90,12 @@ class UptimeService:
         lift_updates = grouped_updates[lift_name]
 
         if lift_schedule:
-            # TODO: This will have to be day specific eventually
-            open_hour, close_hour = lift_schedule[0]
+            open_hour, close_hour = lift_schedule[self.day_of_week]
+
+            # Uptime is 0 if the lift isn't open
+            if open_hour == 0:
+                return 0
+
             scheduled_minutes_open = (close_hour - open_hour) * 60
             minutes_closed = self._calculate_minutes_closed(lift_updates)
 
