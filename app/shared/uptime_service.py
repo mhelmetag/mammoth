@@ -122,8 +122,7 @@ class UptimeService:
                 open = False
                 last_closed = created_at
 
-            # TODO: Calculate and add-on late opening
-            # and early closing (last_closed.hour < close_hour)
+        # TODO: Should consider late opening but... that's next
 
         if last_closed.hour < close_hour:
             close_time = datetime(
