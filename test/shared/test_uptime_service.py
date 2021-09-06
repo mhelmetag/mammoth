@@ -45,8 +45,7 @@ class TestUptimeService(TestCase):
 
         uptime = uptimes['Discovery Express 11']
 
-        # TODO: This 100 isn't entirely true since the lifts close early
-        self.assertAlmostEqual(uptime, 100, delta=5)
+        self.assertAlmostEqual(uptime, 94, delta=5)
 
     @mock.patch.dict(os.environ, {'SEASON': 'Summer'})
     def test_lifts_with_downtime(self):
@@ -62,5 +61,4 @@ class TestUptimeService(TestCase):
 
         uptime = uptimes['Discovery Express 11']
 
-        # TODO: Similarly not entirely true because the closing time was early
         self.assertAlmostEqual(uptime, 75, delta=5)

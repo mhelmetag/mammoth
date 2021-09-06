@@ -1,6 +1,6 @@
 from app.models.lift import Lift
 
-import datetime
+from datetime import datetime
 import os
 
 
@@ -63,7 +63,7 @@ WINTER_LIFT_SCHEDULES = {}
 
 
 class UptimeService:
-    def __init__(self, seasonal_lifts, day_of_week, latest_updates):
+    def __init__(self, seasonal_lifts: list[str], day_of_week: int, latest_updates: list):
         self.lift_schedules = self._lift_schedules()
         self.seasonal_lifts = seasonal_lifts
         self.day_of_week = day_of_week
@@ -94,25 +94,26 @@ class UptimeService:
 
             # Uptime is 0 if the lift isn't open
             if open_hour == 0:
-                return 0
+                next
 
             scheduled_minutes_open = (close_hour - open_hour) * 60
-            minutes_closed = self._calculate_minutes_closed(lift_updates)
+            minutes_closed = self._calculate_minutes_closed(
+                open_hour, close_hour, lift_updates)
 
             return round(((scheduled_minutes_open - minutes_closed) / scheduled_minutes_open) * 100)
 
-    def _calculate_minutes_closed(self, updates):
+    def _calculate_minutes_closed(self, _, close_hour, updates):
         minutes_closed = 0
         open = False
         last_closed = None
 
         for update in updates:
-            created_at = datetime.datetime.fromisoformat(update['created_at'])
+            created_at = datetime.fromisoformat(update['created_at'])
 
             if update['to'] in Lift.OPEN_STATUSES:
                 if not open and last_closed:
                     difference_minutes = (
-                        (created_at - last_closed).seconds / 60)
+                        created_at - last_closed).seconds / 60
                     minutes_closed += difference_minutes
                     last_closed = None
 
@@ -120,6 +121,15 @@ class UptimeService:
             else:
                 open = False
                 last_closed = created_at
+
+            # TODO: Calculate and add-on late opening
+            # and early closing (last_closed.hour < close_hour)
+
+        if last_closed.hour < close_hour:
+            close_time = datetime(
+                last_closed.year, last_closed.month, last_closed.day, close_hour)
+            difference_minutes = (close_time - last_closed).seconds / 60
+            minutes_closed += difference_minutes
 
         return minutes_closed
 
