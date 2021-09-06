@@ -28,12 +28,12 @@ class LiftService:
             status_element = row.find('td', {'class': 'lift-status-icon'})
 
             if name_element and status_element:
-                name = name_element.getText()
+                name = name_element.getText().strip()
                 status = self._translate_status(status_element['class'][1])
                 kind = self._translate_kind(
                     row.find('td', {'class': 'lift-chair-icon'})['class'][1])
                 last_updated = self._last_updated(
-                    row.find('td', {'class': 'lift-last-update'}).find('span').getText())
+                    row.find('td', {'class': 'lift-last-update'}).find('span').getText().strip())
 
                 lift = {
                     'name': name,
@@ -89,8 +89,8 @@ class LiftService:
 
     def _last_updated(_, last_updated_raw: str) -> datetime:
         if last_updated_raw != 'N/A':
-            last_updated_pst = f'{last_updated_raw} PST'
-            return parse(last_updated_pst, tzinfos={
-                'PST': gettz('America/Los_Angeles')})
+            last_updated_pst = f'{last_updated_raw} PT'
+            return parse(last_updated_pst, tzinfos={'PT': gettz('America/Los_Angeles')})
+
         else:
             return datetime.utcnow()

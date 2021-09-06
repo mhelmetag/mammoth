@@ -2,7 +2,8 @@ from app.shared.lift_service import LiftService
 
 from unittest import mock, TestCase
 import os
-import json
+from datetime import datetime
+from dateutil.tz import gettz
 
 
 class MockResponse:
@@ -39,4 +40,6 @@ class TestLiftService(TestCase):
         self.assertEqual(lift['name'], 'Broadway Express 1')
         self.assertEqual(lift['status'], 'Expected')
         self.assertEqual(lift['kind'], 'Quad')
+        self.assertEqual(lift['last_updated'], datetime(
+            2021, 9, 5, 14, 20, tzinfo=gettz('America/Los_Angeles')))
         self.assertEqual(lift['season'], 'Winter')

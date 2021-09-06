@@ -15,6 +15,7 @@ init_firebase_admin()
 
 
 def main():
+    # Run every 10 minutes with cron
     session = Session()
 
     try:
