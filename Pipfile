@@ -22,6 +22,5 @@ firebase-admin = "*"
 aiofiles = "*"
 
 [dev-packages]
-pytest = "*"
 pylint = "*"
 autopep8 = "*"
