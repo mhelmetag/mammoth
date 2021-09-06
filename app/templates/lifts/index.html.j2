@@ -13,14 +13,14 @@
 {% endblock %}
 
 {% block content %}
-{% if updates %}
+{% if latest_update %}
 <article class="message">
   <div class="message-header">
-    <p>Last Updated at {{updates.created_at}}</p>
+    <p>Last Updated at {{latest_update.created_at}}</p>
   </div>
   <div class="message-body">
     <ul>
-    {% for update in updates.updates %}
+    {% for update in latest_update.updates %}
       <li>{{update['name']}}: {{update['from']}} -> {{update['to']}}</li>
     {% endfor %}
     </ul>
