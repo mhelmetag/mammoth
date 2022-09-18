@@ -29,7 +29,7 @@ class LatestUpdate(Base):
 
     def _created_at_for_html(self):
         return self.created_at.replace(tzinfo=gettz('UTC')).astimezone(
-            tz=gettz('America/Los_Angeles')).strftime('%-I:%M %p %Z')
+            tz=gettz('America/Los_Angeles')).strftime('%B %d, %-I:%M %p %Z')
 
     def _created_at_for_json(self):
         return self.created_at.replace(tzinfo=gettz('UTC')).isoformat()

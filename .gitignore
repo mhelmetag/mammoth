@@ -1,3 +1,12 @@
-serviceAccountKey.json
+# environment
 .env
 .vscode
+
+# python
+*.pyc
+
+# firebase creds
+serviceAccountKey.json
+
+# heroku/postgres
+latest.dump

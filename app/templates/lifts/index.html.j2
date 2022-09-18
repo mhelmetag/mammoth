@@ -13,14 +13,14 @@
 {% endblock %}
 
 {% block content %}
-{% if updates %}
+{% if latest_update %}
 <article class="message">
   <div class="message-header">
-    <p>Last Updated at {{updates.created_at}}</p>
+    <p>Last Updated at {{latest_update.created_at}}</p>
   </div>
   <div class="message-body">
     <ul>
-    {% for update in updates.updates %}
+    {% for update in latest_update.updates %}
       <li>{{update['name']}}: {{update['from']}} -> {{update['to']}}</li>
     {% endfor %}
     </ul>
@@ -36,6 +36,7 @@
         <th>Status</th>
         <th>Kind</th>
         <th>Last Updated</th>
+        <th>Uptime<th>
       </tr>
     <thead>
     {% for lift in lifts %}
@@ -44,6 +45,7 @@
       <td><span>{{lift['status']}} <i class="fa fa-circle" style="color:{{lift['status_color']}}"></i><span></td>
       <td>{{lift['kind']}}</td>
       <td>{{lift['last_updated']}}</td>
+      <td><progress class="progress is-normal" value="{{lift['uptime']}}" max="100">{{lift['uptime']}}%</progress></td>
     </tbody>
     {% endfor %}
   </table>

@@ -8,8 +8,10 @@ from sqlalchemy.orm import validates
 
 
 class Lift(Base):
-    STATUSES = ['Open', 'For Scenic Rides Only', '30 Minutes or Less',
-                'Expected', 'Hold - Weather', 'Hold - Maintenance', 'Closed', 'Unknown']
+    OPEN_STATUSES = ['Open', 'For Scenic Rides Only']
+    CLOSED_STATUSES = ['30 Minutes or Less', 'Expected',
+                       'Hold - Weather', 'Hold - Maintenance', 'Closed', 'Unknown']
+    STATUSES = OPEN_STATUSES + CLOSED_STATUSES
     KINDS = ['Double', 'Triple', 'Quad',
              'Six-pack', 'Gondola', 'Zipline', 'Unknown']
     SEASONS = ['Winter', 'Summer']
@@ -22,6 +24,7 @@ class Lift(Base):
     kind = Column(String, nullable=False)
     season = Column(String, nullable=False)
     last_updated = Column(DateTime, nullable=False)
+    uptime = Column(Integer, nullable=False, server_default='0')
 
     @validates('status')
     def validate_status(self, _, status):
@@ -52,7 +55,8 @@ class Lift(Base):
             'status_color': self._status_color_for_html(),
             'kind': self.kind,
             'season': self.season,
-            'last_updated': self._last_updated_for_html()
+            'last_updated': self._last_updated_for_html(),
+            'uptime': self.uptime
         }
 
     def for_json(self):
@@ -62,7 +66,8 @@ class Lift(Base):
             'status': self.status,
             'kind': self.kind,
             'season': self.season,
-            'last_updated': self._last_updated_for_json()
+            'last_updated': self._last_updated_for_json(),
+            'uptime': self.uptime
         }
 
     def _last_updated_for_html(self):

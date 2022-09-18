@@ -15,6 +15,7 @@ init_firebase_admin()
 
 
 def main():
+    # Run every 10 minutes with cron
     session = Session()
 
     try:
@@ -24,7 +25,7 @@ def main():
         updates = []
         for lift in lifts:
             stored_lift = session.query(Lift).filter(
-                Lift.season.like(SEASON), Lift.name.like(lift['name'])).first()
+                Lift.season == SEASON, Lift.name == lift['name']).first()
 
             if stored_lift and stored_lift.status != lift['status']:
                 update = {
@@ -44,7 +45,9 @@ def main():
             current_time = datetime.utcnow()
             latest_update = LatestUpdate(
                 created_at=current_time, updates=updates, season=SEASON)
+
             session.add(latest_update)
+
             session.commit()
 
             notification_service = NotificationService(len(updates))

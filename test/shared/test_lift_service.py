@@ -2,7 +2,6 @@ from app.shared.lift_service import LiftService
 
 from unittest import mock, TestCase
 import os
-import json
 
 
 class MockResponse:
@@ -27,7 +26,11 @@ def _mocked_winter_lift(*args, **kwargs):
 
 
 class TestLiftService(TestCase):
-    @mock.patch.dict(os.environ, {'SEASON': 'Winter'})
+    def setUp(self) -> None:
+        # override pipenv
+        os.environ['SEASON'] = 'Winter'
+        os.environ['MAMMOTH_WINTER_LIFT_STATUS_URL'] = 'http://localhost:8001'
+
     @mock.patch('app.shared.lift_service.get', side_effect=_mocked_winter_lift)
     def test_winter_lifts(self, mock_get):
         lifts_service = LiftService()
@@ -39,4 +42,6 @@ class TestLiftService(TestCase):
         self.assertEqual(lift['name'], 'Broadway Express 1')
         self.assertEqual(lift['status'], 'Expected')
         self.assertEqual(lift['kind'], 'Quad')
+        last_updated = lift['last_updated']
+        self.assertEqual([last_updated.hour, last_updated.minute], [14, 20])
         self.assertEqual(lift['season'], 'Winter')
