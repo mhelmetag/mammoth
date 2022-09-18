@@ -4,8 +4,6 @@ from datetime import datetime
 import os
 
 
-SEASON = os.getenv('SEASON', 'Winter')
-
 # Lift schedules follow a Monday - Sunday order
 # with open and close times in 24H style
 # in UTC
@@ -154,7 +152,7 @@ class UptimeService:
         return grouped_updates
 
     def _lift_schedules(self):
-        if SEASON == 'Winter':
+        if os.getenv('SEASON', 'Winter') == 'Winter':
             return WINTER_LIFT_SCHEDULES
         else:
             return SUMMER_LIFT_SCHEDULES

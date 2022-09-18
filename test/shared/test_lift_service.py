@@ -26,7 +26,11 @@ def _mocked_winter_lift(*args, **kwargs):
 
 
 class TestLiftService(TestCase):
-    @mock.patch.dict(os.environ, {'SEASON': 'Winter'})
+    def setUp(self) -> None:
+        # override pipenv
+        os.environ['SEASON'] = 'Winter'
+        os.environ['MAMMOTH_WINTER_LIFT_STATUS_URL'] = 'http://localhost:8001'
+
     @mock.patch('app.shared.lift_service.get', side_effect=_mocked_winter_lift)
     def test_winter_lifts(self, mock_get):
         lifts_service = LiftService()

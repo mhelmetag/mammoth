@@ -1,7 +1,6 @@
-import datetime
 from app.shared.uptime_service import UptimeService
 
-from unittest import mock, TestCase
+from unittest import TestCase
 import os
 import json
 
@@ -15,7 +14,10 @@ def _load_latest_updates(filename: str) -> list:
 
 
 class TestUptimeService(TestCase):
-    @mock.patch.dict(os.environ, {'SEASON': 'Summer'})
+    def setUp(self) -> None:
+        # override pipenv
+        os.environ['SEASON'] = 'Summer'
+
     def test_lift_not_open(self):
         seasonal_lifts = ['Stump Alley Express 2', 'Canyon Express 16',
                           'Discovery Express 11', 'Panorama Lower', 'Panorama Upper']
@@ -31,7 +33,6 @@ class TestUptimeService(TestCase):
 
         self.assertEqual(uptime, 0)
 
-    @mock.patch.dict(os.environ, {'SEASON': 'Summer'})
     def test_lifts_closed_early(self):
         seasonal_lifts = ['Stump Alley Express 2', 'Canyon Express 16',
                           'Discovery Express 11', 'Panorama Lower', 'Panorama Upper']
@@ -47,7 +48,6 @@ class TestUptimeService(TestCase):
 
         self.assertAlmostEqual(uptime, 94, delta=5)
 
-    @mock.patch.dict(os.environ, {'SEASON': 'Summer'})
     def test_lifts_with_downtime(self):
         seasonal_lifts = ['Stump Alley Express 2', 'Canyon Express 16',
                           'Discovery Express 11', 'Panorama Lower', 'Panorama Upper']
