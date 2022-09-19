@@ -41,7 +41,7 @@ async def root(request):
         lift_dicts = list(l.for_html() for l in lifts)
 
         template_params = {
-            'request': request, 'updates': latest_update_dict, 'season': season, 'lifts': lift_dicts}
+            'request': request, 'latest_update': latest_update_dict, 'season': season, 'lifts': lift_dicts}
 
         return templates.TemplateResponse('lifts/index.html.j2', template_params)
     finally:
