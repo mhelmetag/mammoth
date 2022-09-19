@@ -1,19 +1,16 @@
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from dateutil.parser import parse
 from dateutil.tz import gettz
 
 from requests import get
 from bs4 import BeautifulSoup
 
-SEASON = os.getenv('SEASON', 'Winter')
-MAMMOTH_WINTER_LIFT_STATUS_URL = os.getenv(
-    'MAMMOTH_WINTER_LIFT_STATUS_URL', 'http://localhost:8001')
-MAMMOTH_SUMMER_LIFT_STATUS_URL = os.getenv(
-    'MAMMOTH_SUMMER_LIFT_STATUS_URL', 'http://localhost:8001')
-
 
 class LiftService:
+    def __init__(self) -> None:
+        self.season = os.getenv('SEASON', 'Winter')
+
     def fetch_lifts(self) -> list:
         url = self._status_url()
         response = get(url)
@@ -28,18 +25,18 @@ class LiftService:
             status_element = row.find('td', {'class': 'lift-status-icon'})
 
             if name_element and status_element:
-                name = name_element.getText()
+                name = name_element.getText().strip()
                 status = self._translate_status(status_element['class'][1])
                 kind = self._translate_kind(
                     row.find('td', {'class': 'lift-chair-icon'})['class'][1])
                 last_updated = self._last_updated(
-                    row.find('td', {'class': 'lift-last-update'}).find('span').getText())
+                    row.find('td', {'class': 'lift-last-update'}).find('span').getText().strip())
 
                 lift = {
                     'name': name,
                     'status': status,
                     'kind': kind,
-                    'season': SEASON,
+                    'season': self.season,
                     'last_updated': last_updated
                 }
 
@@ -47,11 +44,11 @@ class LiftService:
 
         return lifts
 
-    def _status_url(_) -> str:
-        if SEASON == 'Winter':
-            return MAMMOTH_WINTER_LIFT_STATUS_URL
+    def _status_url(self) -> str:
+        if self.season == 'Winter':
+            return os.getenv('MAMMOTH_WINTER_LIFT_STATUS_URL', 'http://localhost:8001')
         else:
-            return MAMMOTH_SUMMER_LIFT_STATUS_URL
+            return os.getenv('MAMMOTH_SUMMER_LIFT_STATUS_URL', 'http://localhost:8001')
 
     def _translate_status(_, status: str) -> str:
         if status == 'open':
@@ -89,8 +86,8 @@ class LiftService:
 
     def _last_updated(_, last_updated_raw: str) -> datetime:
         if last_updated_raw != 'N/A':
-            last_updated_pst = f'{last_updated_raw} PST'
-            return parse(last_updated_pst, tzinfos={
-                'PST': gettz('America/Los_Angeles')})
+            last_updated_pt = f'{last_updated_raw} PT'
+            return parse(last_updated_pt, tzinfos={
+                'PT': gettz('America/Los_Angeles')}).astimezone(tz=timezone.utc)
         else:
             return datetime.utcnow()

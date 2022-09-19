@@ -1,5 +1,7 @@
 [scripts]
 web = "uvicorn web:app --reload"
+seed="python app/db/seed_lifts.py"
+update-lifts="python app/jobs/update_lift_statuses.py"
 fake = "uvicorn fake:app --reload --port 8001"
 test = "python -m unittest discover"
 
@@ -22,6 +24,5 @@ firebase-admin = "*"
 aiofiles = "*"
 
 [dev-packages]
-pytest = "*"
 pylint = "*"
 autopep8 = "*"

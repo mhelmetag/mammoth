@@ -1,8 +1,8 @@
+from datetime import datetime
 from app.shared.lift_service import LiftService
 
 from unittest import mock, TestCase
 import os
-import json
 
 
 class MockResponse:
@@ -26,17 +26,39 @@ def _mocked_winter_lift(*args, **kwargs):
     return MockResponse(data, 200)
 
 
+@mock.patch('app.shared.lift_service.get', side_effect=_mocked_winter_lift)
 class TestLiftService(TestCase):
-    @mock.patch.dict(os.environ, {'SEASON': 'Winter'})
-    @mock.patch('app.shared.lift_service.get', side_effect=_mocked_winter_lift)
-    def test_winter_lifts(self, mock_get):
+    def setUp(self) -> None:
+        # override pipenv
+        os.environ['SEASON'] = 'Winter'
+        os.environ['MAMMOTH_WINTER_LIFT_STATUS_URL'] = 'http://localhost:8001'
+
+    def test_winter_lifts_with_updated_time(self, mock_get):
         lifts_service = LiftService()
         lifts = lifts_service.fetch_lifts()
-        lift = lifts[0]
+        lift = next(filter(lambda l: l['name'] == 'Broadway Express 1', lifts))
 
         mock_get.assert_called_once_with('http://localhost:8001')
 
         self.assertEqual(lift['name'], 'Broadway Express 1')
         self.assertEqual(lift['status'], 'Expected')
         self.assertEqual(lift['kind'], 'Quad')
+        last_updated = lift['last_updated']
+        self.assertTrue(last_updated.hour ==
+                        20 or last_updated.hour == 21, 'last_updated hour utc equals 20 or 21')  # PST/PDT
+        self.assertEqual(last_updated.minute, 20)
         self.assertEqual(lift['season'], 'Winter')
+
+    def test_winter_lifts_without_updated_time(self, mock_get):
+        lifts_service = LiftService()
+        lifts = lifts_service.fetch_lifts()
+        lift = next(filter(lambda l: l['name'] ==
+                    'Discovery Express 11', lifts))
+        utcnow = datetime.utcnow()
+
+        mock_get.assert_called_once_with('http://localhost:8001')
+
+        self.assertEqual(lift['name'], 'Discovery Express 11')
+        last_updated = lift['last_updated']
+        self.assertEqual([last_updated.hour, last_updated.minute], [
+                         utcnow.hour, utcnow.minute])
