@@ -15,8 +15,12 @@ jobs:
 
       - name: Setup Python
         uses: actions/setup-python@v4
-        with:
-          cache: "pipenv"
+
+      - name: Install pipenv
+        uses: pip install pipenv
+
+      - name: pipenv install
+        uses: pipenv install --dev
 
       - name: Run tests
         run: pipenv run test
