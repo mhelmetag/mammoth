@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from dateutil.parser import parse
 from dateutil.tz import gettz
 
@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 
 class LiftService:
-    def __init__(self):
+    def __init__(self) -> None:
         self.season = os.getenv('SEASON', 'Winter')
 
     def fetch_lifts(self) -> list:
@@ -86,8 +86,8 @@ class LiftService:
 
     def _last_updated(_, last_updated_raw: str) -> datetime:
         if last_updated_raw != 'N/A':
-            last_updated_pst = f'{last_updated_raw} PT'
-            return parse(last_updated_pst, tzinfos={'PT': gettz('America/Los_Angeles')})
-
+            last_updated_pt = f'{last_updated_raw} PT'
+            return parse(last_updated_pt, tzinfos={
+                'PT': gettz('America/Los_Angeles')}).astimezone(tz=timezone.utc)
         else:
             return datetime.utcnow()

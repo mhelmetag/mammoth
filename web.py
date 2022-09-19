@@ -83,7 +83,7 @@ async def api_lifts(request):
         season = request.query_params.get('season', SEASON)
         lifts = session.query(Lift).filter(
             Lift.season == season).order_by(Lift.last_updated.desc()).all()
-        lift_dicts = [l.for_json() for l in lifts]
+        lift_dicts = list(l.for_json() for l in lifts)
 
         return JSONResponse({'lifts': lift_dicts})
 
