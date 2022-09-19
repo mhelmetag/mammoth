@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from dateutil.parser import parse
 from dateutil.tz import gettz
 
@@ -88,6 +88,6 @@ class LiftService:
         if last_updated_raw != 'N/A':
             last_updated_pt = f'{last_updated_raw} PT'
             return parse(last_updated_pt, tzinfos={
-                'PT': gettz('America/Los_Angeles')})
+                'PT': gettz('America/Los_Angeles')}).astimezone(tz=timezone.utc)
         else:
             return datetime.utcnow()
