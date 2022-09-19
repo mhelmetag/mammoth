@@ -18,6 +18,8 @@ In the summer, the Discovery Chair lift should be open from 9AM - 5PM PDT daily.
 
 Let's say that today the Discovery Chair was in the state 'Hold - Weather' from 1PM - 2PM PST. It's `time_closed` was 60 minutes (1 hour). We can then calculate it's `uptime` for the day as `round(((480 - 60) / 480) * 100)` or `88`.
 
+It'd be best, IMO, to calculate the uptime for the whole week so that should be similar but with the totals over the whole week vs one day.
+
 ### Gathering test data
 
 ```sql

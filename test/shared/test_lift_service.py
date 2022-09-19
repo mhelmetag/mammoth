@@ -44,8 +44,8 @@ class TestLiftService(TestCase):
         self.assertEqual(lift['status'], 'Expected')
         self.assertEqual(lift['kind'], 'Quad')
         last_updated = lift['last_updated']
-        self.assertTrue(last_updated.hour ==
-                        20 or last_updated.hour == 21, 'last_updated hour utc equals 20 or 21')  # PST/PDT
+        # can be off by 1 because of PST/PDT
+        self.assertAlmostEqual(last_updated.hour, 20, delta=1)
         self.assertEqual(last_updated.minute, 20)
         self.assertEqual(lift['season'], 'Winter')
 
