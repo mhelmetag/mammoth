@@ -79,6 +79,10 @@ The most recent lift update.
 }
 ```
 
+## Screenshots
+
+![list-view](.github/screenshots/list-view.png)
+
 ## Credits
 
 Icons made by [Freepik](https://www.flaticon.com/authors/freepik) from [Flaticon](https://www.flaticon.com).
